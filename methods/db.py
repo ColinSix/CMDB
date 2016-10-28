@@ -51,6 +51,6 @@ class DB:
 if __name__ == "__main__":
 
     # 测试
-    db = DB(host='101.200.125.9',user='root',password='123456',db='mysql')
-    sql = 'select * from user where User="root" and Host="localhost"'
+    db = DB(host='101.200.125.9',user='root',password='123456',db='mingguangzhen')
+    sql = 'select * from user'
     print db.execute(sql)
