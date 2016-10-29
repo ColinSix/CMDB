@@ -2,7 +2,7 @@
 #encoding:utf8
 #
 #
-from api import ExcAnaly, ExcJoint, UserAuth
+from api import ExcAnaly, ExcJoint, UserAuth, DBOPERAT
 
 
 # excjoint = ExcJoint(table="user")
@@ -11,6 +11,17 @@ from api import ExcAnaly, ExcJoint, UserAuth
 # print excanaly.excel_analy()
 
 
-instan = UserAuth(user="Lisa", passwd="123456")
+# instan = UserAuth(user="Lisa", passwd="123456")
 
-print instan.user_auth()
+# print instan.user_auth()
+# 
+
+dbop = DBOPERAT(table="user")
+# val = ["xxxxx","!QAZ2wsx","super admin","xxx@cdb.com.cn"]
+
+# print dbop.insert(values=val)
+# _id = 1
+
+# dbop.delete(_id=_id)
+# 
+print dbop.select()
