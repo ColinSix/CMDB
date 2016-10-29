@@ -52,7 +52,7 @@ class ExcJoint:
         self.db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
         self.table = table
 
-    # 主要从数据库获取需要的值并返回
+    # 主要从数据库获取需要的值并返回,格式[{},{},{}]
     def sql_data(self):
         num = len(table_thead[self.table])               # %s需要拼接多少次 
         split_sql = ','.join(['%s'] * num)               # 计算出%s的个数供sql拼接使用
