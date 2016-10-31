@@ -66,9 +66,9 @@ class DBOPERAT:
             return True
 
     def select(self):
-        seakeys = str(table_thead[self.table]).replace("[","").replace("]","")      # 定义需要查询的keys作为sql拼接的格式化的值
+        seakeys = str(table_thead[self.table]).replace("[","").replace("]","").replace("'","")      # 定义需要查询的keys作为sql拼接的格式化的值
         sql = "select %s from %s" % (seakeys, self.table)       # 格式化出查询的sql
-
+        print sql
         try:
             res = self.db.execute(sql)            # 执行查询数据的sql
         except Exception as error:
