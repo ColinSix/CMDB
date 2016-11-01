@@ -1,47 +1,55 @@
 #!/usr/bin/env python
 #encoding:utf8
 #
-#
-# from api import DBOPERAT
-# from methods import DATAIMPORT
+from flask import Flask, redirect, render_template, session, url_for, g, request
+from config import app_config
 
-# excjoint = ExcJoint(table="user")
-# excanaly = ExcAnaly(excel="G:\\python\\test_file\\user.xlsx",table="user")
-# print excjoint.data_tailor()
-# print excanaly.excel_analy()
+# app = Flask(__name__)
 
 
-# instan = UserAuth(user="Lisa", passwd="123456")
 
-# print instan.user_auth()
+# def db_select():
+#     from api import DBOPERAT
+#     dbop = DBOPERAT(table="user")
+#     print dbop.select()
+# db_select()
+
+# def db_delete():
+#     from api import DBOPERAT
+#     dbop = DBOPERAT(table="user")
+#     print dbop.delete(_id=6)
+
+# db_delete()
+
+# def data_import():
+#     from methods.data import DATAIMPORT
+#     instance = DATAIMPORT(excel="G:\\python\\test_file\\user.xlsx",table="user")
+#     instance.data_import()
+
+# data_import()
 # 
+# def data_export():
+#     from methods.data import DataExport
+#     instance = DATAEXPORT(table="user")
+#     return instance.data_export()
 
-# dbop = DBOPERAT(table="user")
-# val = ["xxxxx","!QAZ2wsx","super admin","xxx@cdb.com.cn"]
+# print data_export()
+# 
+# def excval_join():
+#     from api import ExcJoint
+#     inst = ExcJoint(table="user")
+#     return inst.data_tailor()
 
-# print dbop.insert(values=val)
-# _id = 1
+# print excval_join()
 
-# dbop.delete(_id=_id)
-#
-# from api import DBOPERAT
+# @app.route("/", methods=['GET'])
+# def index():
+#     return "hello"
 
-def db_select():
-    from api import DBOPERAT
-    dbop = DBOPERAT(table="user")
-    print dbop.select()
-db_select()
+# @app.route("/export", methods=['GET'])
+# def export():
+#     return data_export()
 
-def db_delete():
-    from api import DBOPERAT
-    dbop = DBOPERAT(table="user")
-    print dbop.delete(_id=6)
 
-db_delete()
-
-def data_import():
-    from methods.data import DATAIMPORT
-    instance = DATAIMPORT(excel="G:\\python\\test_file\\user.xlsx",table="user")
-    instance.data_import()
-
-data_import()
+# if __name__ == '__main__':
+    # app.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])

@@ -62,7 +62,7 @@ class ExcJoint:
         format_sqlval.append(self.table)                          # 添加需要到处的数据表的名称(sql语句需要的格式化数据准备完毕)
         return self.db.execute(tmp_sql % tuple(format_sqlval))    # 获取数据库指定表的指定key的值作为返回值
 
-    # 处理数据库中返回的值为[[],[],[]]格式,为到处excel做准备
+    # 处理数据库中返回的值为[[],[],[]]格式,为导出excel做准备
     def data_tailor(self):
         res = []                                      # 结果返回列表
         exc_head = excel_thead[self.table]            # 引入excel表头文件
@@ -73,7 +73,7 @@ class ExcJoint:
             for key in tab_head:                      # 循环数据库表中的key
                 tmp.append(self.sql_data()[i][key])   # 完成excel每行数据的生成(即除了首列序号其它excel中每行的数据来自sql_data)
             res.append(tmp)                           # 循环完成时就是excel数据生成完毕的时候
-        return res                                    # 将数据值返回给函数,共excel生成使用
+        return res                                    # 将数据值返回给函数,供excel生成使用
 
 
 

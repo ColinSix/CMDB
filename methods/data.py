@@ -5,11 +5,12 @@
 # 
 from config import table_thead, excel_thead, db_config
 from methods import DB
-from api import ExcAnaly
+from api import ExcAnaly, ExcJoint
+from flask.ext import excel
 import copy
 
 # 提供excel数据导入
-class DATAIMPORT:
+class DataImport:
 
     def __init__(self, excel, table):
         self.db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
@@ -50,4 +51,18 @@ class DATAIMPORT:
             else:
                 return True
 
+# 提供数据导出
+class DataExport:
 
+    def __init__(self,table):
+        self.table = table
+
+    # 获取要导出的数据
+    def get_data(self):
+        res = ExcJoint(table=self.table).data_tailor()
+        return res
+
+    # 数据导出action需要和flask.ext.excel结合使用
+    def data_export(self):
+        data = self.get_data()
+        return excel.make_response_from_array(data, "xlsx", file_name="export_" + self.table)
