@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 #encoding:utf8
 #
-from flask import Flask, redirect, render_template, session, url_for, g, request
-from config import app_config
-
+# from flask import Flask, redirect, render_template, session, url_for, g, request
+# from config import app_config
+# import os
 # app = Flask(__name__)
-
+# app.secret_key = os.urandom(24)
 
 
 # def db_select():
@@ -42,14 +42,33 @@ from config import app_config
 
 # print excval_join()
 
-# @app.route("/", methods=['GET'])
-# def index():
-#     return "hello"
 
 # @app.route("/export", methods=['GET'])
 # def export():
 #     return data_export()
 
+# @app.route('/hello', methods=['GET'])
+# def hello():    
+#     # session['user'] = 'ming'
+#     # print session.items()
+#     # g['user'] = 'aaron'
+#     # print g.get('user')
+#     print dir(g)
+#     # print request.url
+#     return 'hello'
+# @app.route('/world', methods=['GET'])
+# def world():
+#     # print session.items()
+#     # print request.url
+#     return 'world'
 
 # if __name__ == '__main__':
-    # app.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])
+#     app.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])
+
+def bootapp_test():
+    from config import app_config
+    from handlers.cmdb_app import app
+    webrun = app
+    webrun.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])
+
+bootapp_test()
