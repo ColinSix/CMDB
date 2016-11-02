@@ -1,0 +1,154 @@
+{% extends "/base/base.html" %}
+
+{% block contents %}
+
+<div class="modal fade" id="upload-file-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form action="/user/import" role="form" method="POST" enctype=multipart/form-data>
+                    <div class="form-group" >
+                        <input type="file" name="upload-excel">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-xs" value="upload">上传</button>
+                    <button type="reset" class="btn btn-warning btn-xs">重置</button>
+                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">取消</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="add-user-Modal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新建用户</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline animated bounceInLeft" id="user-form" action='/vm-user/add' method='POST'>
+
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="username" class="add_user_form_wid">用户名</label>
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Joke">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="password" class="add_user_form_wid">密码</label>
+                        <input type="text" name="password" class="form-control" id="password" placeholder="admin123!@#">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="role" class="add_user_form_wid">角色</label>
+                        <select class="form-control" name="role" id="role" placeholder="administrator" style="position:relative;width:200px;line-height:14px;border:0px;">
+                            <option></option>
+                            <option>administrator</option>
+                            <option>user</option>
+                            <option>temp user</option>
+                            <option>vm admin</option>
+                        </select>
+            <!-- <input type="text" name="role" class="form-control" id="role" placeholder="administrator"> -->
+
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="email" class="add_user_form_wid">邮箱</label>
+                        <input type="text" name="email" class="form-control" id="email" placeholder="joke@cdb.com.cn">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-xs add-user-btn">保存并添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="update-user-Modal" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改用户信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline animated bounceInLeft" id="update-user-form" action='/user/update' method='POST'>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_password" class="add_user_form_wid">密码</label>
+                        <input type="text" name="update_password" class="form-control" id="update_password" placeholder="密码">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_role" class="add_user_form_wid">角色</label>
+                        <input type="text" name="update_role" class="form-control" id="update_role" placeholder="角色">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_email" class="add_user_form_wid">邮箱</label>
+                        <input type="text" name="update_email" class="form-control" id="update_email" placeholder="邮箱">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-xs update-btn">保存并修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel text-left">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-xs btn-danger text-left">批量删除</button>
+                        <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-user-Modal">新建用户</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="pane text-right">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-xs btn-primary text-right" id="export-user-btn">导出</button>
+                        <button type="button" class="btn btn-xs btn-primary text-right" data-toggle="modal" data-target="#upload-file-Modal">导入</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
+                <thead>
+                    <tr>
+                        <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;"><input name="" type="checkbox" value=""></th>
+                        <th>USE</th>
+                        <th>用户名</th>
+                        <th>密码</th>
+                        <th>角色</th>
+                        <th>邮箱</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     {% for data in user_info %}
+                    <tr>
+                        <td><input name="" type="checkbox" value=""></td>
+                        <td>{{loop.index}}</td>
+                        <td>{{data['username']}}</td>
+                        <td>{{data['password']}}</td>
+                        <td>{{data['role']}}</td>
+                        <td>{{data['email']}}</td>
+                        <td><button data-userid="{{data['id']}}" class="btn btn-danger btn-xs delete-user-btn">删除</button><button type="submit" data-userid="{{data['id']}}" data-username="{{data['username']}}" data-password="{{data['password']}}" data-role="{{data['role']}}" data-email="{{data['email']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-user-btn" data-toggle="modal" data-target="#update-user-Modal">更新</button></td>
+                    </tr>
+                    {% endfor %}                  
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
+
+{% endblock %}

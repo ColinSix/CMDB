@@ -27,12 +27,12 @@ def login():
 @app.route("/user", methods=["GET"])
 def user():
 
-    return "user"
+    return render_template("/user/user.html")
 
-@app.route("/assets", methods=["GET"])
-def assets():
+@app.route("/assets/<kind>", methods=["GET"])
+def assets(kind):
 
-    return "assets"
+    return render_template("/assets/"+kind+".html")
 
 
 if __name__ == "__main__":
