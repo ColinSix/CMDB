@@ -29,10 +29,10 @@ def user():
 
     return render_template("/user/user.html")
 
-@app.route("/assets/<kind>", methods=["GET"])
-def assets(kind):
+@app.route("/assets/<kind>/<name>", methods=["GET"])
+def assets(kind,name):
 
-    return render_template("/assets/"+kind+".html")
+    return render_template("/assets/"+kind+"/"+name+".html")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,273 @@
+{% extends "/base/base.html" %}
+
+{% block contents %}
+
+<div class="modal fade" id="upload-file-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form action="/vmassets/import" role="form" method="POST" enctype=multipart/form-data>
+                    <div class="form-group" >
+                        <input type="file" name="upload-excel">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-xs" value="upload">上传</button>
+                    <button type="reset" class="btn btn-warning btn-xs">重置</button>
+                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">取消</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="add-vmassets-Modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增资源</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline animated bounceInLeft" id="vmassets-form" action='/vmassets/add' method='POST'>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="ip_addr" class="add_res_form_wid">IP地址</label>
+                        <input type="text" name="user" class="form-control" id="ip_addr" placeholder="ip_addr">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="app_name" class="add_res_form_wid">应用系统</label>
+                        <input type="text" name="pwd" class="form-control" id="app_name" placeholder="app_name">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="hostname" class="add_res_form_wid">主机名</label>
+                        <input type="text" name="pwd" class="form-control" id="hostname" placeholder="hostname">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="cpu" class="add_res_form_wid">CPU</label>
+                        <input type="text" name="pwd" class="form-control" id="cpu" placeholder="cpu">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="memory" class="add_res_form_wid">内存</label>
+                        <input type="text" name="pwd" class="form-control" id="memory" placeholder="memory">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="disk" class="add_res_form_wid">硬盘</label>
+                        <input type="text" name="pwd" class="form-control" id="disk" placeholder="disk">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="os" class="add_res_form_wid">操作系统</label>
+                        <input type="text" name="pwd" class="form-control" id="os" placeholder="os">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="status" class="add_res_form_wid">使用状态</label>
+                        <input type="text" name="pwd" class="form-control" id="status" placeholder="status">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="office_name" class="add_res_form_wid">负责处室</label>
+                        <input type="text" name="pwd" class="form-control" id="office_name" placeholder="office_name">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="office_contact" class="add_res_form_wid">行方负责人</label>
+                        <input type="text" name="pwd" class="form-control" id="office_contact" placeholder="office_contact">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="office_phone" class="add_res_form_wid">行方电话</label>
+                        <input type="text" name="pwd" class="form-control" id="office_phone" placeholder="office_phone">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="object_contact" class="add_res_form_wid">项目负责人</label>
+                        <input type="text" name="pwd" class="form-control" id="object_contact" placeholder="object_contact">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="object_phone" class="add_res_form_wid">项目组电话</label>
+                        <input type="text" name="pwd" class="form-control" id="object_phone" placeholder="object_phone">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="create_date" class="add_res_form_wid">创建日期</label>
+                        <input type="text" name="pwd" class="form-control" id="create_date" placeholder="create_date">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="end_date" class="add_res_form_wid">回收日期</label>
+                        <input type="text" name="pwd" class="form-control" id="end_date" placeholder="end_date">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="notes" class="add_res_form_wid">备注</label>
+                        <input type="text" name="pwd" class="form-control" id="notes" placeholder="notes">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-xs add-vmassets-btn">保存并添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="update-vmassets-Modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">请填写资源规格参数</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-inline animated bounceInLeft" id="update-vmassets-form" action='/vmassets/update' method='POST'>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_ip_addr" class="add_res_form_wid">IP地址</label>
+                        <input type="text" name="update_ip_addr" class="form-control" id="update_ip_addr" placeholder="update_ip_addr">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_app_name" class="add_res_form_wid">应用系统</label>
+                        <input type="text" name="update_app_name" class="form-control" id="update_app_name" placeholder="update_app_name">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_hostname" class="add_res_form_wid">主机名</label>
+                        <input type="text" name="update_hostname" class="form-control" id="update_hostname" placeholder="update_hostname">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_vc_name" class="add_res_form_wid">VC名称</label>
+                        <input type="text" name="update_vc_name" class="form-control" id="update_vc_name" placeholder="update_vc_name">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_cpu" class="add_res_form_wid">CPU</label>
+                        <input type="text" name="update_cpu" class="form-control" id="update_cpu" placeholder="update_cpu">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_memory" class="add_res_form_wid">内存</label>
+                        <input type="text" name="update_memory" class="form-control" id="update_memory" placeholder="update_memory">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_disk" class="add_res_form_wid">硬盘</label>
+                        <input type="text" name="update_disk" class="form-control" id="update_disk" placeholder="update_disk">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_os" class="add_res_form_wid">操作系统</label>
+                        <input type="text" name="update_os" class="form-control" id="update_os" placeholder="update_os">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_status" class="add_res_form_wid">使用状态</label>
+                        <input type="text" name="update_status" class="form-control" id="update_status" placeholder="update_status">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_office_name" class="add_res_form_wid">负责处室</label>
+                        <input type="text" name="update_office_name" class="form-control" id="update_office_name" placeholder="update_office_name">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_office_contact" class="add_res_form_wid">行方负责人</label>
+                        <input type="text" name="update_office_contact" class="form-control" id="update_office_contact" placeholder="update_office_contact">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_office_phone" class="add_res_form_wid">行方电话</label>
+                        <input type="text" name="update_office_phone" class="form-control" id="update_office_phone" placeholder="update_office_phone">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_object_contact" class="add_res_form_wid">项目负责人</label>
+                        <input type="text" name="update_object_contact" class="form-control" id="update_object_contact" placeholder="update_object_contact">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_object_phone" class="add_res_form_wid">项目组电话</label>
+                        <input type="text" name="update_object_phone" class="form-control" id="update_object_phone" placeholder="update_object_phone">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_create_date" class="add_res_form_wid">创建日期</label>
+                        <input type="text" name="update_create_date" class="form-control" id="update_create_date" placeholder="update_create_date">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_end_date" class="add_res_form_wid">回收日期</label>
+                        <input type="text" name="update_end_date" class="form-control" id="update_end_date" placeholder="update_end_date">
+                    </div>
+                    <div class="form-group" style="margin-top:5px">
+                        <label for="update_notes" class="add_res_form_wid">备注</label>
+                        <input type="text" name="update_notes" class="form-control" id="update_notes" placeholder="update_notes">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-xs update-btn">保存并修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel text-left">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-xs btn-danger text-left">批量删除</button>
+                        <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-vmassets-Modal">新增资源</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="pane text-right">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-xs btn-primary text-right" id="export-vmassets-btn">导出</button>
+                        <button type="button" class="btn btn-xs btn-primary text-right" data-toggle="modal" data-target="#upload-file-Modal">导入</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
+                <thead>
+                    <tr>
+                        <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;"><input name="" type="checkbox" value=""></th>
+                        <th>USE</th>
+                        <th>所属机房</th>
+                        <th>物理位置</th>
+                        <th>设备型号</th>
+                        <th>IP地址</th>
+                        <th>主机名</th>
+                        <th>应用系统</th>
+                        <th>CPU(物理*核心)</th>
+                        <th>内存(G)</th>
+                        <th>硬盘</th>
+                        <th>操作系统</th>
+                        <th>所属部门</th>
+                        <th>负责人</th>
+                        <th>负责人电话</th>
+                        <th>负责人邮箱</th>
+                        <th>创建日期</th>
+                        <th>备注</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in vmassets_info %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{data['ip_addr']}}</td>
+                        <td>{{data['app_name']}}</td>
+                        <td>{{data['hostname']}}</td>
+                        <td>{{data['vc_name']}}</td>
+                        <td>{{data['cpu']}}</td>
+                        <td>{{data['memory']}}</td>
+                        <td>{{data['disk']}}</td>
+                        <td>{{data['os']}}</td>
+                        <td>{{data['status']}}</td>
+                        <td>{{data['office_name']}}</td>
+                        <td>{{data['office_contact']}}</td>
+                        <td>{{data['office_phone']}}</td>
+                        <td>{{data['object_contact']}}</td>
+                        <td>{{data['object_phone']}}</td>
+                        <td>{{data['create_date']}}</td>
+                        <td>{{data['end_date']}}</td>
+                        <td>{{data['notes']}}</td>
+                        <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="{{data['id']}}" data-ip-addr="{{data['ip_addr']}}" data-app-name="{{data['app_name']}}" data-hostname="{{data['hostname']}}" data-vc-name="{{data['vc_name']}}" data-cpu="{{data['cpu']}}" data-memory="{{data['memory']}}" data-disk="{{data['disk']}}" data-os="{{data['os']}}" data-status="{{data['status']}}" data-office-name="{{data['office_name']}}" data-office-contact="{{data['office_contact']}}" data-office-phone="{{data['office_phone']}}" data-object-contact="{{data['object_contact']}}" data-object-phone="{{data['object_phone']}}" data-create-date="{{data['create_date']}}" data-end-date="{{data['end_date']}}" data-notes="{{data['notes']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">更新</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
+
+{% endblock %}
