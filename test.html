@@ -1,30 +1,68 @@
-<!DOCTYPE html>
-<html lang="zn-CN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<meta charset="utf-8">
+<title>无标题文档</title>
+<script language="javascript">
 
-<head></head>
-<body>
-<select id="test" multiple="true">
-	<option value="option-A">option-A</option>  
-	<option value="option-B">option-B</option>
-	<option value="option-C">option-C</option> 
-	<option value="option-D">option-D</option>
-</select>
+function allcheck(){
 
-<input type="button" value="确定" onclick="fun()" />
-<script>
-function fun(){
-	var select = document.getElementById("test");
-	var str = [];
-	for(i=0;i<select.length;i++){
-		if(select.options[i].selected){
-			str.push(select[i].value);
-		}
-	}
-	alert(str);
+    var check=document.getElementsByName("checkbox");
+    for(var i=0;i<check.length;i++){
+        check[i].checked=true;
+    }
+}
+
+function notallcheck(){
+
+    var check=document.getElementsByName("checkbox");
+    for(var i=0;i<check.length;i++){
+        check[i].checked=!check[i].checked;
+    }
+
+}
+
+function show(){
+    var s=""
+    var check=document.getElementsByName("checkbox");
+    for(var i=0;i<check.length;i++){
+        if(check[i].checked){
+        s+=check[i].value;
+        }
+    }
+    if(s.length==0){
+        alert("没有选择！");
+    }
+    else{
+        alert(s);
+    }    
 }
 
 </script>
+</head>
 
+<body>
+    <table width="300" border="1">
+        <tr>
+            <td height="61">你的爱好：</td>
+        </tr>
+        
+        <tr>
+            <td height="75">
+                <input name="checkbox" type="checkbox" value="爬山" checked>爬山
+                <input type="checkbox" name="checkbox" value="游泳">游泳
+                <input type="checkbox" name="checkbox" value=" 打球">打球
+                <input type="checkbox" name="checkbox" value="看电视">看电视
+            </td>
+        </tr>
+
+        <tr>
+            <td height="52">
+                <input type="button" name="Submit" value="全选" onClick="allcheck()">    
+                <input type="submit" name="Submit2" value="反选" onClick="notallcheck()">
+                <input type="submit" name="Submit3" value="确定" onClick="show()">
+            </td>
+        </tr>
+    </table>
 </body>
-
 </html>
