@@ -149,9 +149,9 @@
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="collapse navbar-collapse navbar-ex1-collapse" id="left-navigation">
                 <ul class="nav navbar-nav side-nav">
-                    <li class="active">
+                    <li>
                         <a href="/"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
@@ -159,30 +159,32 @@
                     </li>
 
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#physical-asset-list"><i class="fa fa-fw fa-table"></i> 物理资产 <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#physical-asset-list">
+                            <i class="fa fa-fw fa-table"></i> 物理资产 <i class="fa fa-fw fa-caret-down"></i>
+                        </a>
                         
-                        <ul id="physical-asset-list" class="collapse">
-
-                            <li>
-                                <a href="/assets/physical/x86_assets">x86资源管理</a>
-                            </li>
-                            <li>
-                                <a href="/assets/physical/unix_assets">unix资源管理</a>
-                            </li>
-                        </ul>
+                            <ul id="physical-asset-list" class="collapse">
+                                <li>
+                                    <a href="/assets/physical/x86_assets">x86资源管理</a>
+                                </li>
+                                <li>
+                                    <a href="/assets/physical/unix_assets">unix资源管理</a>
+                                </li>
+                            </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#virtual-asset-list"><i class="fa fa-fw fa-arrows-v"></i> 虚拟资产 <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#virtual-asset-list">
+                            <i class="fa fa-fw fa-arrows-v"></i> 虚拟资产 <i class="fa fa-fw fa-caret-down"></i>
+                        </a>
                         
-                        <ul id="virtual-asset-list" class="collapse">
-
-                            <li>
-                                <a href="/assets/virtual/x86_assets">x86资源管理</a>
-                            </li>
-                            <li>
-                                <a href="/assets/virtual/unix_assets">unix资源管理</a>
-                            </li>
-                        </ul>
+                            <ul id="virtual-asset-list" class="collapse">
+                                <li>
+                                    <a href="/assets/virtual/x86_assets">x86资源管理</a>
+                                </li>
+                                <li>
+                                    <a href="/assets/virtual/unix_assets">unix资源管理</a>
+                                </li>
+                            </ul>
                     </li>
  
                 </ul>
@@ -216,3 +218,18 @@
 </body>
 
 </html>
+
+<!-- 激活左侧导航栏 -->
+<script>
+    var pathname = location.pathname
+    $.each($('#left-navigation').find('a'), function(index,value){
+        if($(value).attr('href')==pathname){
+            $(value).parent().addClass('active')
+        }
+    })
+    $.each($('#left-navigation').find('a').find('a'), function(index,value){
+        if($(value).attr('href')==pathname){
+            $(value).parent().addClass('active')
+        }
+    })
+</script>

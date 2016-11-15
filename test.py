@@ -72,3 +72,4 @@ def bootapp_test():
     webrun.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])
 
 bootapp_test()
+

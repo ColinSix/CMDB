@@ -124,7 +124,9 @@
             <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
                 <thead>
                     <tr>
-                        <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;"><input name="" type="checkbox" value=""></th>
+                        <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;">
+                            <input type="checkbox" name="all_items" value="">
+                        </th>
                         <th>USE</th>
                         <th>用户名</th>
                         <th>密码</th>
@@ -136,7 +138,7 @@
                 <tbody>
                      {% for data in user_info %}
                     <tr>
-                        <td><input name="" type="checkbox" value=""></td>
+                        <td><input name="item" type="checkbox" data-userid="{{data['id']}}" value=""></td>
                         <td>{{loop.index}}</td>
                         <td>{{data['username']}}</td>
                         <td>{{data['password']}}</td>
@@ -144,7 +146,7 @@
                         <td>{{data['email']}}</td>
                         <td><button data-userid="{{data['id']}}" class="btn btn-danger btn-xs delete-user-btn">删除</button><button type="submit" data-userid="{{data['id']}}" data-username="{{data['username']}}" data-password="{{data['password']}}" data-role="{{data['role']}}" data-email="{{data['email']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-user-btn" data-toggle="modal" data-target="#update-user-Modal">更新</button></td>
                     </tr>
-                    {% endfor %}                  
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
