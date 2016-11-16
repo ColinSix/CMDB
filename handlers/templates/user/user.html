@@ -1,4 +1,44 @@
 {% extends "/base/base.html" %}
+{% block script %}
+
+<script>
+
+// function allcheck(){
+//     var check=document.getElementsByName("item");
+//     var control=document.getElementsByName("control")
+//     // console.log(check)
+//     if(control[0].value=="false"){
+//         for(var i=0;i<check.length;i++){
+//             check[i].checked=true;
+//             control[0].data-state=true
+//         }
+//     }  
+// }
+
+function allselect(){
+    var control = $("#control").attr("data-state")
+
+    var allchecks = $(".table-responsive").find("tbody").find("input")
+
+    if(control == "false"){
+        for(var i=0;i<allchecks.length;i++){
+            allchecks[i].checked=true
+            $("#control").attr("data-state", "true")
+        }
+    }
+    else if(control == "true"){
+        for(var j=0;j<allchecks.length;j++){
+            allchecks[j].checked=false
+            $("#control").attr("data-state", "false")
+        }
+    }
+    
+}
+
+</script>
+
+{% endblock %}
+
 
 {% block contents %}
 
@@ -125,7 +165,7 @@
                 <thead>
                     <tr>
                         <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;">
-                            <input type="checkbox" name="all_items" value="">
+                            <input id="control" type="checkbox" name="control" value="false" onClick="allselect()" data-state="false">
                         </th>
                         <th>USE</th>
                         <th>用户名</th>
@@ -154,3 +194,4 @@
 </div>
 
 {% endblock %}
+

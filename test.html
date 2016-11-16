@@ -8,6 +8,7 @@
 function allcheck(){
 
     var check=document.getElementsByName("checkbox");
+    console.log(check)
     for(var i=0;i<check.length;i++){
         check[i].checked=true;
     }
@@ -19,7 +20,6 @@ function notallcheck(){
     for(var i=0;i<check.length;i++){
         check[i].checked=!check[i].checked;
     }
-
 }
 
 function show(){
