@@ -7,6 +7,19 @@
 # app = Flask(__name__)
 # app.secret_key = os.urandom(24)
 
+def dbexcute():
+  from methods import DB
+  from config import db_config
+  db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
+  print db.execute("select id,username,password,role from user")
+
+# dbexcute()
+
+def db_insert():
+    from api import DBOPERAT
+    dbop = DBOPERAT(table="user")
+    print dbop.insert(values=["xxx","xxx","admin","xxx@admin"])
+# db_insert()
 
 # def db_select():
 #     from api import DBOPERAT
@@ -14,10 +27,10 @@
 #     print dbop.select()
 # db_select()
 
-# def db_delete():
-#     from api import DBOPERAT
-#     dbop = DBOPERAT(table="user")
-#     print dbop.delete(_id=6)
+def db_delete():
+    from api import DBOPERAT
+    dbop = DBOPERAT(table="user")
+    print dbop.delete(id_arr=[9,10])
 
 # db_delete()
 

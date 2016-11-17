@@ -3,18 +3,6 @@
 
 <script>
 
-// function allcheck(){
-//     var check=document.getElementsByName("item");
-//     var control=document.getElementsByName("control")
-//     // console.log(check)
-//     if(control[0].value=="false"){
-//         for(var i=0;i<check.length;i++){
-//             check[i].checked=true;
-//             control[0].data-state=true
-//         }
-//     }  
-// }
-
 function allselect(){
     var control = $("#control").attr("data-state")
 
@@ -32,8 +20,59 @@ function allselect(){
             $("#control").attr("data-state", "false")
         }
     }
-    
 }
+
+function delete(){
+    var s=""
+    var check=document.getElementsByName("checkbox");
+    for(var i=0;i<check.length;i++){
+        if(check[i].checked){
+        s+=check[i].value;
+        }
+    }
+    if(s.length==0){
+        alert("没有选择！");
+    }
+    else{
+        alert(s);
+    }    
+}
+
+// 批量删除按钮
+$(document).on('click', '.lotdel-btn', function() {
+    var arr_id = []
+    var item_num = $(".table-responsive").find("tbody").find("input").length
+    for(var i=1;i<=item_num;i++){
+        item = ".item"+i
+        if($(item)[0].checked==true){
+            arr_id.push($(item).attr("data-userid"))
+        }
+    }
+    // alert(id)
+    swal({
+            title: "确定删除吗？",
+            text: "删除后你将永远会失去Ta",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        },
+        function() {
+            // $.get('/del_res?id=' + id, function(res) {
+            $.post('/user/delete', {id: arr_id}, function(res) {
+                if (res == 'ok') {
+                    swal('删除成功')
+                    // 实现页面自动跳转
+                    location.href = "/user"
+                } else if (res == 'error') {
+                    swal('删除失败')
+                }
+            })
+        })
+    return false
+    })
+
 
 </script>
 
@@ -143,7 +182,7 @@ function allselect(){
             <div class="col-lg-4">
                 <div class="panel text-left">
                     <div class="panel-body">
-                        <button type="button" class="btn btn-xs btn-danger text-left">批量删除</button>
+                        <button type="button" class="btn btn-xs btn-danger text-left lotdel-btn" onClick="">批量删除</button>
                         <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-user-Modal">新建用户</button>
                     </div>
                 </div>
@@ -157,8 +196,6 @@ function allselect(){
                 </div>
             </div>
         </div>
-
-        
 
         <div class="table-responsive">
             <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
@@ -178,7 +215,7 @@ function allselect(){
                 <tbody>
                      {% for data in user_info %}
                     <tr>
-                        <td><input name="item" type="checkbox" data-userid="{{data['id']}}" value=""></td>
+                        <td><input name="item" type="checkbox" class="item{{loop.index}}" data-userid="{{data['id']}}"></td>
                         <td>{{loop.index}}</td>
                         <td>{{data['username']}}</td>
                         <td>{{data['password']}}</td>

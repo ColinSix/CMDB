@@ -30,17 +30,31 @@ class DBOPERAT:
             print "数据添加成功."
             return True
 
-    def delete(self, _id):
-        sql = "delete from %s where id=%s" % (self.table, _id)
-        try:
-            self.db.execute(sql)            # 执行删除数据的sql
-        except Exception as error:
-            print "数据删除失败."
-            print error
-            return False
-        else:
-            print "数据删除成功."
-            return True
+    # def delete(self, _id):
+    #     sql = "delete from %s where id=%s" % (self.table, _id)
+    #     try:
+    #         self.db.execute(sql)            # 执行删除数据的sql
+    #     except Exception as error:
+    #         print "数据删除失败."
+    #         print error
+    #         return False
+    #     else:
+    #         print "数据删除成功."
+    #         return True
+
+    def delete(self, id_arr):
+        for _id in id_arr:
+            sql = "delete from %s where id=%s" % (self.table, _id)
+            try:
+                self.db.execute(sql)            # 执行删除数据的sql
+            except Exception as error:
+                print "数据删除失败,id:%s" % (_id)
+                print error
+                continue
+
+            else:
+                print "数据删除成功,id:%s" % (_id)
+        return True
 
     def update(self, values, _id):
         if len(values) != len(table_thead[self.table]):         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
@@ -67,7 +81,7 @@ class DBOPERAT:
 
     def select(self):
         seakeys = str(table_thead[self.table]).replace("[","").replace("]","").replace("'","")      # 定义需要查询的keys作为sql拼接的格式化的值
-        sql = "select %s from %s" % (seakeys, self.table)       # 格式化出查询的sql
+        sql = "select id,%s from %s" % (seakeys, self.table)       # 格式化出查询的sql
         print sql
         try:
             res = self.db.execute(sql)            # 执行查询数据的sql
