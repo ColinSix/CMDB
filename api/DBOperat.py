@@ -30,18 +30,6 @@ class DBOPERAT:
             print "数据添加成功."
             return True
 
-    # def delete(self, _id):
-    #     sql = "delete from %s where id=%s" % (self.table, _id)
-    #     try:
-    #         self.db.execute(sql)            # 执行删除数据的sql
-    #     except Exception as error:
-    #         print "数据删除失败."
-    #         print error
-    #         return False
-    #     else:
-    #         print "数据删除成功."
-    #         return True
-
     def delete(self, id_arr):
         for _id in id_arr:
             sql = "delete from %s where id=%s" % (self.table, _id)
