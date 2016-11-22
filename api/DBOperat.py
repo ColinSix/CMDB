@@ -13,25 +13,27 @@ class DBOPERAT:
         self.table = table
 
     def insert(self, values):
-        if len(values) != len(table_thead[self.table]):         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
+        values_num = len(values)
+        keys_num = len(table_thead[self.table])
+        if values_num != keys_num:         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
             print "传入的值%s" % (str(values))
             print "传入的值与表键数量不匹配应传%s,实传%s" % (len(table_thead[self.table]), len(values))
             return False
 
-        sqlkeys = str(tuple(table_thead[self.table])).replace("'","")              # 往数据库增加的表的key
-
+        sqlkeys = table_thead[self.table]              # 往数据库增加的表的key
+        sqlkeys.insert(0,self.table)
         #
         temp_arr = []
         for val in values:
             if type(val) == unicode:
-                temp_arr.append('"' + val.encode("utf-8") + '"')
+                sqlkeys.append(val.encode("utf-8"))
             else:
-                temp_arr.append(val)
-        print temp_arr
-        #
-        # sqlvalues = str(tuple((values))).replace("u","")                           # 往数据库增加的表的值
-        # sql = "insert into %s %s values %s" % (self.table, sqlkeys, sqlvalues)     # 拼接sql
-        sql = "insert into %s %s values %s" % (self.table, sqlkeys, tuple(temp_arr))
+                sqlkeys.append(val)
+
+        tmp_sql = 'insert into %s (' + ",".join(['%s'] * keys_num) + ') values (' + ",".join(['"%s"'] * values_num) + ')'
+        print tmp_sql
+        print sqlkeys
+        sql = tmp_sql % (tuple(sqlkeys))
         print sql
         try:
             self.db.execute(sql)            # 执行添加数据的sql
@@ -87,15 +89,24 @@ class DBOPERAT:
             return True
 
     def select(self):
+        values = []
+        tmp = ""
         seakeys = str(table_thead[self.table]).replace("[","").replace("]","").replace("'","")      # 定义需要查询的keys作为sql拼接的格式化的值
-        sql = "select id,%s from %s" % (seakeys, self.table)       # 格式化出查询的sql
+        keys_num = len(table_thead[self.table])
+        values += table_thead[self.table]
+        # values.insert(0,"id")
+        values.append(self.table)
+        print values
+        tmp_sql = "select id," + ",".join(['%s'] * keys_num) + " from %s"       # 格式化出查询的sql
+        print tmp_sql
+        sql = tmp_sql % tuple(values)
         print sql
         try:
             res = self.db.execute(sql)            # 执行查询数据的sql
         except Exception as error:
             print "数据查询失败."
             print error
-            return False
+            # return False
         else:
             print "数据查询成功."
             return res

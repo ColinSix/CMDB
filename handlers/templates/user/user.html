@@ -83,7 +83,7 @@ $('#add-user-Modal').find('.add-user-btn').on('click', function() {
             swal("用户添加失败", "用户名不能为空哦~", "error")
         }
     })
-    return false
+    // return false
 })
 
 // 删除用户
@@ -289,7 +289,7 @@ $('#update-user-Modal').find('.update-btn').on('click', function() {
                     </tr>
                 </thead>
                 <tbody>
-                     {% for data in user_info %}
+                     {% for data in users %}
                     <tr>
                         <td><input name="item" type="checkbox" class="item{{loop.index}}" data-userid="{{data['id']}}"></td>
                         <td>{{loop.index}}</td>

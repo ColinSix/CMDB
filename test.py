@@ -13,10 +13,21 @@ def dbexcute():
     db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
 
     # temp_arr = ['\xe6\x88\x91', '\xe6\x88\x91', 'user', '\xe6\x88\x91']
-    sql = "insert into user (username, password, role, email) values (%s, %s, %s, %s)" % ('"\xe5\xa5\xbd"', '"\xe5\xa5\xbd"', '"user"', '"\xe5\xa5\xbd"')
-    # sql = insert into user (username, password, role, email) values ('"\xe5\xa5\xbd"', '"\xe5\xa5\xbd"', '"user"', '"\xe5\xa5\xbd"')
+    # sql = "insert into user (username, password, role, email) values (%s, %s, %s, %s)" % ('"\xe5\xa5\xbd"', '"\xe5\xa5\xbd"', '"user"', '"\xe5\xa5\xbd"')
+    # sql = 'insert into user (username, password, role, email) values ('"\xe4\xb8\xad\xe5\x9b\xbd"', '"\xe4\xb8\xad\xe5\x9b\xbd"', '"user"', '"\xe4\xb8\xad\xe5\x9b\xbd"')'
+    # print sql
+    values = [u"坏人",u"坏人",u"坏人",u"坏人"]
+    temp_arr = []
+    for val in values:
+        if type(val) == unicode:
+            temp_arr.append(val.encode("utf-8"))
+        else:
+            temp_arr.append(val)
+    print temp_arr
+    print tuple(temp_arr)
+    sql = 'insert into user (username, password, role, email) values ("%s","%s","%s","%s")' % (tuple(temp_arr))
     print sql
-    print db.execute(sql)
+    db.execute(sql)
 
 # dbexcute()
 

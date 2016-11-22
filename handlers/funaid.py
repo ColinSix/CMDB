@@ -19,14 +19,18 @@ class RequestProcess:
         try:
             if option == "delete":
                 if DBOPERAT(table=self.table).delete(id_arr=arr_id):
-                    return True
+                    pass
+                    # return True
                 else:
-                    return False
+                    pass
+                    # return False
             elif option == "insert":
                 if DBOPERAT(table=self.table).insert(values=insert_val):
-                    return True
+                    pass
+                    # return True
                 else:
-                    return False
+                    pass
+                    # return False
             elif option == "update":
                 if DBOPERAT(table=self.table).update(values=update_val, _id=_id):
                     return True

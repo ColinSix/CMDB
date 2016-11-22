@@ -28,7 +28,8 @@ def login():
 @app.route("/user", methods=["GET"])
 def user():
     res = DBOPERAT(table="user").select()
-    return render_template("/user/user.html", user_info=res)
+    print res
+    return render_template("/user/user.html", users=res)
 
 @app.route("/user/<option>", methods=["GET", "POST"])
 def user_option(option):
