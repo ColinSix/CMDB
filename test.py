@@ -8,10 +8,15 @@
 # app.secret_key = os.urandom(24)
 
 def dbexcute():
-  from methods import DB
-  from config import db_config
-  db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
-  print db.execute("select id,username,password,role from user")
+    from methods import DB
+    from config import db_config
+    db = DB(host=db_config["host"],user=db_config["user"],password=db_config["passwd"],db=db_config["db"])
+
+    # temp_arr = ['\xe6\x88\x91', '\xe6\x88\x91', 'user', '\xe6\x88\x91']
+    sql = "insert into user (username, password, role, email) values (%s, %s, %s, %s)" % ('"\xe5\xa5\xbd"', '"\xe5\xa5\xbd"', '"user"', '"\xe5\xa5\xbd"')
+    # sql = insert into user (username, password, role, email) values ('"\xe5\xa5\xbd"', '"\xe5\xa5\xbd"', '"user"', '"\xe5\xa5\xbd"')
+    print sql
+    print db.execute(sql)
 
 # dbexcute()
 

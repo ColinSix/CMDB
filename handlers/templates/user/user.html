@@ -3,6 +3,7 @@
 
 <script>
 
+// 全选按钮
 function allselect(){
     var control = $("#control").attr("data-state")
 
@@ -22,22 +23,6 @@ function allselect(){
     }
 }
 
-function delete(){
-    var s=""
-    var check=document.getElementsByName("checkbox");
-    for(var i=0;i<check.length;i++){
-        if(check[i].checked){
-        s+=check[i].value;
-        }
-    }
-    if(s.length==0){
-        alert("没有选择！");
-    }
-    else{
-        alert(s);
-    }    
-}
-
 // 批量删除按钮
 $(document).on('click', '.lotdel-btn', function() {
     var arr_id = []
@@ -48,7 +33,8 @@ $(document).on('click', '.lotdel-btn', function() {
             arr_id.push($(item).attr("data-userid"))
         }
     }
-    // alert(id)
+    console.log(arr_id)
+    console.log(JSON.stringify(arr_id))
     swal({
             title: "确定删除吗？",
             text: "删除后你将永远会失去Ta",
@@ -59,8 +45,8 @@ $(document).on('click', '.lotdel-btn', function() {
             closeOnConfirm: false
         },
         function() {
-            // $.get('/del_res?id=' + id, function(res) {
-            $.post('/user/delete', {id: arr_id}, function(res) {
+            // $.get('/del_res?id=' + id, function(res) {   
+            $.post("/user/delete", {arr_id: JSON.stringify(arr_id)}, function(res) {
                 if (res == 'ok') {
                     swal('删除成功')
                     // 实现页面自动跳转
@@ -73,6 +59,96 @@ $(document).on('click', '.lotdel-btn', function() {
     return false
     })
 
+// 添加用户js
+$('#add-user-Modal').find('.add-user-btn').on('click', function() {
+    var user_info_post = [
+        $('#username').val(),
+        $('#password').val(),
+        $('#role').val(),
+        $('#email').val()
+    ]
+    console.log(user_info_post)
+    $.post("/user/insert", {insert_val: JSON.stringify(user_info_post)}, function(res) {
+        if (res == 'ok') {
+            $('#user-form')[0].reset()
+            $('#add-user-Modal').modal('hide')
+            swal({
+                title: "666",
+                text: "恭喜恭喜，添加用户成功",
+                imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
+            })
+            // 实现页面自动跳转
+            location.href = "/user"
+        } else {
+            swal("用户添加失败", "用户名不能为空哦~", "error")
+        }
+    })
+    return false
+})
+
+// 删除用户
+$(document).on('click', '.delete-user-btn', function() {
+    var arr_id = [$(this).attr('data-userid')]
+    console.log(arr_id)
+    swal({
+            title: "确定删除吗？",
+            text: "删除后你将永远会失去Ta",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            closeOnConfirm: false
+        },
+        function() {
+            // $.get('/del_res?id=' + id, function(res) {
+            $.post('/user/delete', {arr_id: JSON.stringify(arr_id)}, function(res) {
+                if (res == 'ok') {
+                    swal('删除成功')
+                    // 实现页面自动跳转
+                    location.href = "/user"
+                } else if (res == 'error') {
+                    swal('删除失败')
+                }
+            })
+        })
+    return false
+})
+
+// 更新用户
+$(document).on('click', '.update-user-btn', function() {
+    $('#update_password').val($(this).attr('data-password'))
+    $('#update_role').val($(this).attr('data-role'))
+    $('#update_email').val($(this).attr('data-email'))
+    $('#update-user-Modal').attr('data-userid', $(this).attr('data-userid')).modal('show')
+})
+
+$('#update-user-Modal').find('.update-btn').on('click', function() {
+    // var id = $('#update-user-Modal').attr('data-userid')
+    var user_info_post = {
+        update_val:JSON.stringify([
+            $('#update_password').val(),
+            $('#update_role').val(),
+            $('#update_email').val()
+        ]),
+        _id: $('#update-user-Modal').attr('data-userid')
+    }
+
+    console.log(user_info_post)
+    $.post('/user/update', user_info_post, function(res) {
+        if (res == 'ok') {
+            swal('用户信息修改成功')
+            $('#update-user-form')[0].reset()
+            $('#update-user-Modal').modal('hide')
+            // 实现页面自动跳转
+            location.href = "/user"
+        } else if (res == 'error') {
+            swal('信息修改失败')
+            $('#update-user-form')[0].reset()
+            $('#update-user-Modal').modal('hide')
+        }
+    })
+    return false
+})
 
 </script>
 
@@ -107,8 +183,8 @@ $(document).on('click', '.lotdel-btn', function() {
                 <h4 class="modal-title">新建用户</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline animated bounceInLeft" id="user-form" action='/vm-user/add' method='POST'>
-
+                <!-- <form class="form-inline animated bounceInLeft" id="user-form" action="/user/insert" method="POST" -->
+                <form class="form-inline animated bounceInLeft" id="user-form">
                     <div class="form-group" style="margin-top:5px">
                         <label for="username" class="add_user_form_wid">用户名</label>
                         <input type="text" name="username" class="form-control" id="username" placeholder="Joke">
@@ -152,7 +228,7 @@ $(document).on('click', '.lotdel-btn', function() {
                 <h4 class="modal-title">修改用户信息</h4>
             </div>
             <div class="modal-body">
-                <form class="form-inline animated bounceInLeft" id="update-user-form" action='/user/update' method='POST'>
+                <form class="form-inline animated bounceInLeft" id="update-user-form" action="/user/update" method="POST">
                     <div class="form-group" style="margin-top:5px">
                         <label for="update_password" class="add_user_form_wid">密码</label>
                         <input type="text" name="update_password" class="form-control" id="update_password" placeholder="密码">

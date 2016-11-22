@@ -14,12 +14,25 @@ class DBOPERAT:
 
     def insert(self, values):
         if len(values) != len(table_thead[self.table]):         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
-            print "传入的值与表键数量不匹配"
+            print "传入的值%s" % (str(values))
+            print "传入的值与表键数量不匹配应传%s,实传%s" % (len(table_thead[self.table]), len(values))
             return False
 
         sqlkeys = str(tuple(table_thead[self.table])).replace("'","")              # 往数据库增加的表的key
-        sqlvalues = str(tuple((values)))                                           # 往数据库增加的表的值
-        sql = "insert into %s %s values %s" % (self.table, sqlkeys, sqlvalues)     # 拼接sql
+
+        #
+        temp_arr = []
+        for val in values:
+            if type(val) == unicode:
+                temp_arr.append('"' + val.encode("utf-8") + '"')
+            else:
+                temp_arr.append(val)
+        print temp_arr
+        #
+        # sqlvalues = str(tuple((values))).replace("u","")                           # 往数据库增加的表的值
+        # sql = "insert into %s %s values %s" % (self.table, sqlkeys, sqlvalues)     # 拼接sql
+        sql = "insert into %s %s values %s" % (self.table, sqlkeys, tuple(temp_arr))
+        print sql
         try:
             self.db.execute(sql)            # 执行添加数据的sql
         except Exception as error:
@@ -31,32 +44,38 @@ class DBOPERAT:
             return True
 
     def delete(self, id_arr):
+        print id_arr
         for _id in id_arr:
             sql = "delete from %s where id=%s" % (self.table, _id)
+            print sql
             try:
                 self.db.execute(sql)            # 执行删除数据的sql
             except Exception as error:
                 print "数据删除失败,id:%s" % (_id)
                 print error
                 continue
-
             else:
                 print "数据删除成功,id:%s" % (_id)
         return True
 
     def update(self, values, _id):
-        if len(values) != len(table_thead[self.table]):         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
-            print "传入的值与表键数量不匹配"
+        if len(values) != (len(table_thead[self.table])-1):         # 将后端穿入的值与数据库表key的数量做验证,匹配即可继续
+            print "传入的值%s" % (str(values))
+            print "传入的值与表键数量不匹配应传%s,实传%s" % (len(table_thead[self.table]), len(values))
             return False
+
         # 拼接sql中key=value部分,这里将key锁定,下面拼接value的值
-        keysjoin = str(table_thead[self.table]).replace("[","").replace("]","").replace("'","").replace(",","='%s',") + "='%s'"
+        keysjoin = str(table_thead[self.table]).replace("[","").replace("]","").replace("'","").replace("username,","").replace(",","='%s',") + "='%s'"
+
         # 拼接上面需要的value的值
-        kvalues = tuple(str(values).replace("[","").replace("]","").replace("'","").replace(" ","").split(','))
+        kvalues = tuple(str(values).replace("[","").replace("]","").replace("'","").replace("u","").replace(" ","").split(','))
+        kvalues = tuple(str(values).replace("u'","").replace("]","").replace("[","").replace("'","").replace(" ","").split(','))
+
         # 将sql中key=value部分拼接完毕
         keysjoin = keysjoin % (kvalues)
         # 开始格式化可用的sql
         sql = "update %s set %s where id='%s'" % (self.table, keysjoin, _id)
-
+        print "执行数据库操作%s" % (sql)
         try:
             self.db.execute(sql)            # 执行更新数据的sql
         except Exception as error:

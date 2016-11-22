@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #encoding:utf8
 #
-import sys, os
+import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
 from api import DBOPERAT
 from handlers import RequestProcess as RP
@@ -30,15 +30,23 @@ def user():
     res = DBOPERAT(table="user").select()
     return render_template("/user/user.html", user_info=res)
 
-@app.route("/user/<option>", methods=["POST"])
+@app.route("/user/<option>", methods=["GET", "POST"])
 def user_option(option):
-    insert_val = request.form.get("insert_val", None)
-    arr_id = request.form.get("arr_id", None)
-    update_val = request.form.get("update_val", None)
-    _id = request.form.get("_id", None)
-    RP(table="user", option=option, insert_val=insert_val, arr_id=arr_id, update_val=update_val, _id=_id).response()
-
-    
+    val_dict = {"insert_val":request.form.get("insert_val", None),
+                "arr_id":request.form.get("arr_id", None),
+                "update_val":request.form.get("update_val", None),
+                "_id":request.form.get("_id", None)
+               }
+    print type(request.form.get("insert_val", None))
+    for key in val_dict.keys():
+        if val_dict[key] != None:
+            val_dict[key] = json.loads(val_dict[key])
+    print val_dict
+    print "insert_val:%s,arr_id:%s,update_val:%s,_id:%s" % (val_dict["insert_val"],val_dict["arr_id"],val_dict["update_val"],val_dict["_id"])
+    if RP(table="user").response(option=option, insert_val=val_dict["insert_val"], arr_id=val_dict["arr_id"], update_val=val_dict["update_val"], _id=val_dict["_id"]):
+        return "ok"
+    else:
+        return "error"
 
 
 @app.route("/assets/<kind>/<name>", methods=["GET"])
