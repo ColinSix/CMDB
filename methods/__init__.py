@@ -4,6 +4,6 @@
 from db import DB
 # from data import DATAIMPORT
 
-__all__ = ["DB", "DATAIMPORT"]
+__all__ = ["DB", "DATAIMPORT", "GetData"]
 
 

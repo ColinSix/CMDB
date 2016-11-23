@@ -66,3 +66,4 @@ class DataExport:
     def data_export(self):
         data = self.get_data()
         return excel.make_response_from_array(data, "xlsx", file_name="export_" + self.table)
+

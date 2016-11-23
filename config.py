@@ -4,7 +4,7 @@
 db_config = {
     'host':'101.200.125.9',
     'user':'root',
-    'passwd':"123456",
+    'passwd':"F1CsDgtBMX$9cgX",
     'db':'mingguangzhen'
             }
 

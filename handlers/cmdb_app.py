@@ -3,8 +3,10 @@
 #
 import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
-from api import DBOPERAT
+from api import DBOPERAT,GetData
 from handlers import RequestProcess as RP
+from methods import DB
+from config import db_config
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -28,7 +30,7 @@ def login():
 @app.route("/user", methods=["GET"])
 def user():
     res = DBOPERAT(table="user").select()
-    print res
+    # print res
     return render_template("/user/user.html", users=res)
 
 @app.route("/user/<option>", methods=["GET", "POST"])
