@@ -3,7 +3,6 @@
 #
 import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
-from api import DBOPERAT
 from handlers import RequestProcess as RP
 from methods import DB
 from config import db_config
