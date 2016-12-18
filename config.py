@@ -2,10 +2,10 @@
 #
 
 db_config = {
-    'host':'101.200.125.9',
-    'user':'root',
-    'passwd':"F1CsDgtBMX$9cgX",
-    'db':'mingguangzhen'
+    'host':'server01',
+    'user':'mingguangzhen',
+    'passwd':"123456",
+    'db':'cmdb'
             }
 
 app_config = {

@@ -17,25 +17,30 @@ class RequestProcess:
             print "没有任何可用操作选项。"
             return False
         try:
-            if option == "delete":
+            if option == "select":
+                res = DBOPERAT(table=self.table).select()
+                return res
+
+            elif option == "delete":
                 if DBOPERAT(table=self.table).delete(id_arr=arr_id):
                     pass
-                    # return True
+                    return True
                 else:
                     pass
-                    # return False
+                    return False
             elif option == "insert":
                 if DBOPERAT(table=self.table).insert(values=insert_val):
                     pass
-                    # return True
+                    return True
                 else:
                     pass
-                    # return False
+                    return False
             elif option == "update":
                 if DBOPERAT(table=self.table).update(values=update_val, _id=_id):
                     return True
                 else:
                     return False
+
         except Exception as error:
             print "执行%s操作失败。" % (option)
             print error

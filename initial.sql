@@ -46,3 +46,16 @@ sqlkeys = str(['username', 'password', 'role', 'email']).replace("[","").replace
 ['username', 'password', 'role', 'email']
 ','.join(['username', 'password', 'role', 'email'])
 
+
+CREATE USER 'username'@'host' IDENTIFIED BY 'password'; 
+CREATE USER 'mingguangzhen'@'%' IDENTIFIED BY '123456';
+
+
+GRANT privileges ON databasename.tablename TO 'username'@'host' 
+
+GRANT SELECT, INSERT ON test.user TO 'pig'@'%'; 
+GRANT privileges ON databasename.tablename TO 'username'@'host' WITH GRANT OPTION; 
+GRANT ALL ON *.* TO 'mingguangzhen'@'%' WITH GRANT OPTION; 
+
+
+flush privileges;
