@@ -4,8 +4,6 @@
 import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
 from handlers import RequestProcess as RP
-from methods import DB
-from config import db_config
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
