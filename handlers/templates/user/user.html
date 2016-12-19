@@ -306,5 +306,16 @@ $('#update-user-Modal').find('.update-btn').on('click', function() {
     </div>  
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#data-table').DataTable({
+            'scrollCollapse': true,
+            'scrollY': true,
+            'scrollX': true,
+            'scrollXInner': "150%"
+        })
+    })
+</script>
+
 {% endblock %}
 

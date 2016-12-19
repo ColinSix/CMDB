@@ -4,6 +4,7 @@
 import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
 from handlers import RequestProcess as RP
+from api import UserAuth
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -21,8 +22,18 @@ def base():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
-    return render_template("/login/login.html", res=None)
+    if request.method == 'GET':
+        return render_template("/login/login.html", res=None)
+    elif request.method == 'POST':
+        user = request.form.get('username')
+        pwd = request.form.get('password')
+        login_status = UserAuth(user=user,passwd=pwd).user_auth()
+        if login_status == 1:
+            return redirect(url_for('user'))
+        elif login_status == 2:
+            return "密码错误"
+        elif login_status == 3:
+            return "用户名不存在"
 
 @app.route("/user", methods=["GET"])
 def user():
