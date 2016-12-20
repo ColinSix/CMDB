@@ -25,6 +25,29 @@
 
     <!-- Sweetalert Css -->
     <link href="/static/sweetalert/css/sweetalert.css" rel="stylesheet" type="text/css">
+
+    <!-- dataTables Css -->
+    <link href="/static/dataTables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+
+    <!-- jQuery -->
+    <script src="/static/bootstrap/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="/static/bootstrap/js/plugins/morris/raphael.min.js"></script>
+    <script src="/static/bootstrap/js/plugins/morris/morris.min.js"></script>
+    <!-- <script src="/static/bootstrap/js/plugins/morris/morris-data.js"></script> -->
+    
+    <!-- Sweetalert JavaScript -->
+    <script src="/static/sweetalert/js/sweetalert.min.js"></script>
+
+    <!-- Json2 JavaScript -->
+    <script src="/static/json/js/json2.js"></script>
+    
+    <!-- dataTables JavaScript -->
+    <script type="text/javascript" charset="utf8" src="/static/dataTables/js/jquery.dataTables.min.js"></script>
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -207,78 +230,60 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="/static/bootstrap/js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src="/static/bootstrap/js/plugins/morris/raphael.min.js"></script>
-    <script src="/static/bootstrap/js/plugins/morris/morris.min.js"></script>
-    <script src="/static/bootstrap/js/plugins/morris/morris-data.js"></script>
-    
-    <!-- Sweetalert JavaScript -->
-    <script src="/static/sweetalert/js/sweetalert.min.js"></script>
+    <!-- Datatables全局汉化 -->
+    <script>
+        var oLanguage = {
+            "oAria": {
+                "sSortAscending": ": 升序排列",
+                "sSortDescending": ": 降序排列"
+            },
+            "oPaginate": {
+                "sFirst": "首页",
+                "sLast": "末页",
+                "sNext": "下页",
+                "sPrevious": "上页"
+            },
+            "sEmptyTable": "没有相关记录",
+            "sInfo": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+            "sInfoEmpty": "第 0 到 0 条记录，共 0 条",
+            "sInfoFiltered": "(从 _MAX_ 条记录中检索)",
+            "sInfoPostFix": "",
+            "sDecimal": "",
+            "sThousands": ",",
+            "sLengthMenu": "每页 _MENU_ 条",
+            "sLoadingRecords": "正在载入...",
+            "sProcessing": "正在载入...",
+            "sSearch": "搜索:",
+            "sSearchPlaceholder": "",
+            "sUrl": "",
+            "sZeroRecords": "没有相关记录",
+            }
+        $.fn.dataTable.defaults.oLanguage = oLanguage;
+    </script>
 
-    <!-- Json2 JavaScript -->
-    <script src="/static/json/js/json2.js"></script>
-    
-    <!-- dataTables JavaScript -->
-    <script type="text/javascript" charset="utf8" src="/static/js/jquery.dataTables.min.js"></script>
 
+    <!-- 激活左侧导航栏 -->
+    <script>
+        var pathname = location.pathname
+        $.each($('#left-navigation').find('a'), function(index,value){
+            if($(value).attr('href')==pathname){
+                $(value).parent().addClass('active')
+            }
+        })
+        $.each($('#left-navigation').find('a').find('a'), function(index,value){
+            if($(value).attr('href')==pathname){
+                $(value).parent().addClass('active')
+            }
+        })
+    </script>
+
+    {% block script %}
+                
+    {% endblock %}
 </body>
 
 </html>
 
 
-<!-- Datatables全局汉化 -->
-<script>
-    var oLanguage = {
-        "oAria": {
-            "sSortAscending": ": 升序排列",
-            "sSortDescending": ": 降序排列"
-        },
-        "oPaginate": {
-            "sFirst": "首页",
-            "sLast": "末页",
-            "sNext": "下页",
-            "sPrevious": "上页"
-        },
-        "sEmptyTable": "没有相关记录",
-        "sInfo": "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
-        "sInfoEmpty": "第 0 到 0 条记录，共 0 条",
-        "sInfoFiltered": "(从 _MAX_ 条记录中检索)",
-        "sInfoPostFix": "",
-        "sDecimal": "",
-        "sThousands": ",",
-        "sLengthMenu": "每页 _MENU_ 条",
-        "sLoadingRecords": "正在载入...",
-        "sProcessing": "正在载入...",
-        "sSearch": "搜索:",
-        "sSearchPlaceholder": "",
-        "sUrl": "",
-        "sZeroRecords": "没有相关记录",
-        }
-    $.fn.dataTable.defaults.oLanguage = oLanguage;
-</script>
-
-
-<!-- 激活左侧导航栏 -->
-<script>
-    var pathname = location.pathname
-    $.each($('#left-navigation').find('a'), function(index,value){
-        if($(value).attr('href')==pathname){
-            $(value).parent().addClass('active')
-        }
-    })
-    $.each($('#left-navigation').find('a').find('a'), function(index,value){
-        if($(value).attr('href')==pathname){
-            $(value).parent().addClass('active')
-        }
-    })
-</script>
-
-{% block script %}
-            
-{% endblock %}

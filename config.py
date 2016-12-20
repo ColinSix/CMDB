@@ -2,8 +2,8 @@
 #
 
 db_config = {
-    'host':'server01',
-    'user':'mingguangzhen',
+    'host':'localhost',
+    'user':'root',
     'passwd':"123456",
     'db':'cmdb'
             }

@@ -1,312 +1,311 @@
 {% extends "/base/base.html" %}
+
+{% block contents %}
+
+    <div class="modal fade" id="upload-file-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <form action="/user/import" role="form" method="POST" enctype=multipart/form-data>
+                        <div class="form-group" >
+                            <input type="file" name="upload-excel">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-xs" value="upload">上传</button>
+                        <button type="reset" class="btn btn-warning btn-xs">重置</button>
+                        <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">取消</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="add-user-Modal" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新建用户</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- <form class="form-inline animated bounceInLeft" id="user-form" action="/user/insert" method="POST" -->
+                    <form class="form-inline animated bounceInLeft" id="user-form">
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="username" class="add_user_form_wid">用户</label>
+                            <input type="text" name="username" class="form-control" id="username" placeholder="Joke">
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="password" class="add_user_form_wid">密码</label>
+                            <input type="text" name="password" class="form-control" id="password" placeholder="admin123!@#">
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="role" class="add_user_form_wid">角色</label>
+                            <select class="form-control" name="role" id="role" placeholder="administrator" style="position:relative;width:200px;line-height:14px;border:0px;">
+                                <option></option>
+                                <option>administrator</option>
+                                <option>user</option>
+                                <option>temp user</option>
+                                <option>vm admin</option>
+                            </select>
+                <!-- <input type="text" name="role" class="form-control" id="role" placeholder="administrator"> -->
+
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="email" class="add_user_form_wid">邮箱</label>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="joke@cdb.com.cn">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn-xs add-user-btn">保存并添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="update-user-Modal" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改用户信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-inline animated bounceInLeft" id="update-user-form" action="/user/update" method="POST">
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="update_password" class="add_user_form_wid">密码</label>
+                            <input type="text" name="update_password" class="form-control" id="update_password" placeholder="密码">
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="update_role" class="add_user_form_wid">角色</label>
+                            <input type="text" name="update_role" class="form-control" id="update_role" placeholder="角色">
+                        </div>
+                        <div class="form-group" style="margin-top:5px">
+                            <label for="update_email" class="add_user_form_wid">邮箱</label>
+                            <input type="text" name="update_email" class="form-control" id="update_email" placeholder="邮箱">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary btn-xs update-btn">保存并修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel text-left">
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-xs btn-danger text-left lotdel-btn" onClick="">批量删除</button>
+                            <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-user-Modal">新建用户</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="pane text-right">
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-xs btn-primary text-right" id="export-user-btn">导出</button>
+                            <button type="button" class="btn btn-xs btn-primary text-right" data-toggle="modal" data-target="#upload-file-Modal">导入</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
+                    <thead>
+                        <tr>
+                            <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;">
+                                <input id="control" type="checkbox" name="control" value="false" onClick="allselect()" data-state="false">
+                            </th>
+                            <th>USE</th>
+                            <th>用户名</th>
+                            <th>密码</th>
+                            <th>角色</th>
+                            <th>邮箱</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         {% for data in users %}
+                        <tr>
+                            <td><input name="item" type="checkbox" class="item{{loop.index}}" data-userid="{{data['id']}}"></td>
+                            <td>{{loop.index}}</td>
+                            <td>{{data['username']}}</td>
+                            <td>{{data['password']}}</td>
+                            <td>{{data['role']}}</td>
+                            <td>{{data['email']}}</td>
+                            <td><button data-userid="{{data['id']}}" class="btn btn-danger btn-xs delete-user-btn">删除</button><button type="submit" data-userid="{{data['id']}}" data-username="{{data['username']}}" data-password="{{data['password']}}" data-role="{{data['role']}}" data-email="{{data['email']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-user-btn" data-toggle="modal" data-target="#update-user-Modal">更新</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block script %}
 
 <script>
 
-// 全选按钮
-function allselect(){
-    var control = $("#control").attr("data-state")
+    // 全选按钮
+    function allselect(){
+        var control = $("#control").attr("data-state")
 
-    var allchecks = $(".table-responsive").find("tbody").find("input")
+        var allchecks = $(".table-responsive").find("tbody").find("input")
 
-    if(control == "false"){
-        for(var i=0;i<allchecks.length;i++){
-            allchecks[i].checked=true
-            $("#control").attr("data-state", "true")
+        if(control == "false"){
+            for(var i=0;i<allchecks.length;i++){
+                allchecks[i].checked=true
+                $("#control").attr("data-state", "true")
+            }
+        }
+        else if(control == "true"){
+            for(var j=0;j<allchecks.length;j++){
+                allchecks[j].checked=false
+                $("#control").attr("data-state", "false")
+            }
         }
     }
-    else if(control == "true"){
-        for(var j=0;j<allchecks.length;j++){
-            allchecks[j].checked=false
-            $("#control").attr("data-state", "false")
-        }
-    }
-}
 
-// 批量删除按钮
-$(document).on('click', '.lotdel-btn', function() {
-    var arr_id = []
-    var item_num = $(".table-responsive").find("tbody").find("input").length
-    for(var i=1;i<=item_num;i++){
-        item = ".item"+i
-        if($(item)[0].checked==true){
-            arr_id.push($(item).attr("data-userid"))
+    // 批量删除按钮
+    $(document).on('click', '.lotdel-btn', function() {
+        var arr_id = []
+        var item_num = $(".table-responsive").find("tbody").find("input").length
+        for(var i=1;i<=item_num;i++){
+            item = ".item"+i
+            if($(item)[0].checked==true){
+                arr_id.push($(item).attr("data-userid"))
+            }
         }
-    }
-    console.log(arr_id)
-    console.log(JSON.stringify(arr_id))
-    swal({
-            title: "确定删除吗？",
-            text: "删除后你将永远会失去Ta",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "确定",
-            closeOnConfirm: false
-        },
-        function() {
-            // $.get('/del_res?id=' + id, function(res) {   
-            $.post("/user/delete", {arr_id: JSON.stringify(arr_id)}, function(res) {
-                if (res == 'ok') {
-                    swal('删除成功')
-                    // 实现页面自动跳转
-                    location.href = "/user"
-                } else if (res == 'error') {
-                    swal('删除失败')
-                }
+        console.log(arr_id)
+        console.log(JSON.stringify(arr_id))
+        swal({
+                title: "确定删除吗？",
+                text: "删除后你将永远会失去Ta",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定",
+                closeOnConfirm: false
+            },
+            function() {
+                // $.get('/del_res?id=' + id, function(res) {   
+                $.post("/user/delete", {arr_id: JSON.stringify(arr_id)}, function(res) {
+                    if (res == 'ok') {
+                        swal('删除成功')
+                        // 实现页面自动跳转
+                        location.href = "/user"
+                    } else if (res == 'error') {
+                        swal('删除失败')
+                    }
+                })
             })
+        return false
         })
-    return false
-    })
 
-// 添加用户js
-$('#add-user-Modal').find('.add-user-btn').on('click', function() {
-    var user_info_post = [
-        $('#username').val(),
-        $('#password').val(),
-        $('#role').val(),
-        $('#email').val()
-    ]
-    console.log(user_info_post)
-    $.post("/user/insert", {insert_val: JSON.stringify(user_info_post)}, function(res) {
-        if (res == 'ok') {
-            $('#user-form')[0].reset()
-            $('#add-user-Modal').modal('hide')
-            swal({
-                title: "666",
-                text: "恭喜恭喜，添加用户成功",
-                imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
-            })
-            // 实现页面自动跳转
-            location.href = "/user"
-        } else {
-            swal("用户添加失败", "用户名不能为空哦~", "error")
-        }
-    })
-    // return false
-})
-
-// 删除用户
-$(document).on('click', '.delete-user-btn', function() {
-    var arr_id = [$(this).attr('data-userid')]
-    console.log(arr_id)
-    swal({
-            title: "确定删除吗？",
-            text: "删除后你将永远会失去Ta",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "确定",
-            closeOnConfirm: false
-        },
-        function() {
-            // $.get('/del_res?id=' + id, function(res) {
-            $.post('/user/delete', {arr_id: JSON.stringify(arr_id)}, function(res) {
-                if (res == 'ok') {
-                    swal('删除成功')
-                    // 实现页面自动跳转
-                    location.href = "/user"
-                } else if (res == 'error') {
-                    swal('删除失败')
-                }
-            })
+    // 添加用户js
+    $('#add-user-Modal').find('.add-user-btn').on('click', function() {
+        var user_info_post = [
+            $('#username').val(),
+            $('#password').val(),
+            $('#role').val(),
+            $('#email').val()
+        ]
+        console.log(user_info_post)
+        $.post("/user/insert", {insert_val: JSON.stringify(user_info_post)}, function(res) {
+            if (res == 'ok') {
+                $('#user-form')[0].reset()
+                $('#add-user-Modal').modal('hide')
+                swal({
+                    title: "666",
+                    text: "恭喜恭喜，添加用户成功",
+                    imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
+                })
+                // 实现页面自动跳转
+                location.href = "/user"
+            } else {
+                swal("用户添加失败", "用户名不能为空哦~", "error")
+            }
         })
-    return false
-})
-
-// 更新用户
-$(document).on('click', '.update-user-btn', function() {
-    $('#update_password').val($(this).attr('data-password'))
-    $('#update_role').val($(this).attr('data-role'))
-    $('#update_email').val($(this).attr('data-email'))
-    $('#update-user-Modal').attr('data-userid', $(this).attr('data-userid')).modal('show')
-})
-
-$('#update-user-Modal').find('.update-btn').on('click', function() {
-    // var id = $('#update-user-Modal').attr('data-userid')
-    var user_info_post = {
-        update_val:JSON.stringify([
-            $('#update_password').val(),
-            $('#update_role').val(),
-            $('#update_email').val()
-        ]),
-        _id: $('#update-user-Modal').attr('data-userid')
-    }
-
-    console.log(user_info_post)
-    $.post('/user/update', user_info_post, function(res) {
-        if (res == 'ok') {
-            swal('用户信息修改成功')
-            $('#update-user-form')[0].reset()
-            $('#update-user-Modal').modal('hide')
-            // 实现页面自动跳转
-            location.href = "/user"
-        } else if (res == 'error') {
-            swal('信息修改失败')
-            $('#update-user-form')[0].reset()
-            $('#update-user-Modal').modal('hide')
-        }
+        // return false
     })
-    return false
-})
 
-</script>
+    // 按钮删除用户
+    $(document).on('click', '.delete-user-btn', function() {
+        var arr_id = [$(this).attr('data-userid')]
+        console.log(arr_id)
+        swal({
+                title: "确定删除吗？",
+                text: "删除后你将永远会失去Ta",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定",
+                closeOnConfirm: false
+            },
+            function() {
+                // $.get('/del_res?id=' + id, function(res) {
+                $.post('/user/delete', {arr_id: JSON.stringify(arr_id)}, function(res) {
+                    if (res == 'ok') {
+                        swal('删除成功')
+                        // 实现页面自动跳转
+                        location.href = "/user"
+                    } else if (res == 'error') {
+                        swal('删除失败')
+                    }
+                })
+            })
+        return false
+    })
 
-{% endblock %}
+    // 更新用户
+    $(document).on('click', '.update-user-btn', function() {
+        $('#update_password').val($(this).attr('data-password'))
+        $('#update_role').val($(this).attr('data-role'))
+        $('#update_email').val($(this).attr('data-email'))
+        $('#update-user-Modal').attr('data-userid', $(this).attr('data-userid')).modal('show')
+    })
 
+    $('#update-user-Modal').find('.update-btn').on('click', function() {
+        // var id = $('#update-user-Modal').attr('data-userid')
+        var user_info_post = {
+            update_val:JSON.stringify([
+                $('#update_password').val(),
+                $('#update_role').val(),
+                $('#update_email').val()
+            ]),
+            _id: $('#update-user-Modal').attr('data-userid')
+        }
 
-{% block contents %}
-
-<div class="modal fade" id="upload-file-Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <form action="/user/import" role="form" method="POST" enctype=multipart/form-data>
-                    <div class="form-group" >
-                        <input type="file" name="upload-excel">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-xs" value="upload">上传</button>
-                    <button type="reset" class="btn btn-warning btn-xs">重置</button>
-                    <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">取消</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div id="add-user-Modal" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">新建用户</h4>
-            </div>
-            <div class="modal-body">
-                <!-- <form class="form-inline animated bounceInLeft" id="user-form" action="/user/insert" method="POST" -->
-                <form class="form-inline animated bounceInLeft" id="user-form">
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="username" class="add_user_form_wid">用户</label>
-                        <input type="text" name="username" class="form-control" id="username" placeholder="Joke">
-                    </div>
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="password" class="add_user_form_wid">密码</label>
-                        <input type="text" name="password" class="form-control" id="password" placeholder="admin123!@#">
-                    </div>
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="role" class="add_user_form_wid">角色</label>
-                        <select class="form-control" name="role" id="role" placeholder="administrator" style="position:relative;width:200px;line-height:14px;border:0px;">
-                            <option></option>
-                            <option>administrator</option>
-                            <option>user</option>
-                            <option>temp user</option>
-                            <option>vm admin</option>
-                        </select>
-            <!-- <input type="text" name="role" class="form-control" id="role" placeholder="administrator"> -->
-
-                    </div>
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="email" class="add_user_form_wid">邮箱</label>
-                        <input type="text" name="email" class="form-control" id="email" placeholder="joke@cdb.com.cn">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary btn-xs add-user-btn">保存并添加</button>
-            </div>
-        </div>
-    </div>
-</div>
+        console.log(user_info_post)
+        $.post('/user/update', user_info_post, function(res) {
+            if (res == 'ok') {
+                swal('用户信息修改成功')
+                $('#update-user-form')[0].reset()
+                $('#update-user-Modal').modal('hide')
+                // 实现页面自动跳转
+                location.href = "/user"
+            } else if (res == 'error') {
+                swal('信息修改失败')
+                $('#update-user-form')[0].reset()
+                $('#update-user-Modal').modal('hide')
+            }
+        })
+        return false
+    })
 
 
-<div id="update-user-Modal" class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">修改用户信息</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-inline animated bounceInLeft" id="update-user-form" action="/user/update" method="POST">
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="update_password" class="add_user_form_wid">密码</label>
-                        <input type="text" name="update_password" class="form-control" id="update_password" placeholder="密码">
-                    </div>
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="update_role" class="add_user_form_wid">角色</label>
-                        <input type="text" name="update_role" class="form-control" id="update_role" placeholder="角色">
-                    </div>
-                    <div class="form-group" style="margin-top:5px">
-                        <label for="update_email" class="add_user_form_wid">邮箱</label>
-                        <input type="text" name="update_email" class="form-control" id="update_email" placeholder="邮箱">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary btn-xs update-btn">保存并修改</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="panel text-left">
-                    <div class="panel-body">
-                        <button type="button" class="btn btn-xs btn-danger text-left lotdel-btn" onClick="">批量删除</button>
-                        <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-user-Modal">新建用户</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="pane text-right">
-                    <div class="panel-body">
-                        <button type="button" class="btn btn-xs btn-primary text-right" id="export-user-btn">导出</button>
-                        <button type="button" class="btn btn-xs btn-primary text-right" data-toggle="modal" data-target="#upload-file-Modal">导入</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" style="white-space: nowrap;" id="data-table">
-                <thead>
-                    <tr>
-                        <th width="40" class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 40px;">
-                            <input id="control" type="checkbox" name="control" value="false" onClick="allselect()" data-state="false">
-                        </th>
-                        <th>USE</th>
-                        <th>用户名</th>
-                        <th>密码</th>
-                        <th>角色</th>
-                        <th>邮箱</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                     {% for data in users %}
-                    <tr>
-                        <td><input name="item" type="checkbox" class="item{{loop.index}}" data-userid="{{data['id']}}"></td>
-                        <td>{{loop.index}}</td>
-                        <td>{{data['username']}}</td>
-                        <td>{{data['password']}}</td>
-                        <td>{{data['role']}}</td>
-                        <td>{{data['email']}}</td>
-                        <td><button data-userid="{{data['id']}}" class="btn btn-danger btn-xs delete-user-btn">删除</button><button type="submit" data-userid="{{data['id']}}" data-username="{{data['username']}}" data-password="{{data['password']}}" data-role="{{data['role']}}" data-email="{{data['email']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-user-btn" data-toggle="modal" data-target="#update-user-Modal">更新</button></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>  
-</div>
-
-<script>
+    // dataTables分页
     $(document).ready(function() {
         $('#data-table').DataTable({
             'scrollCollapse': true,
@@ -315,7 +314,8 @@ $('#update-user-Modal').find('.update-btn').on('click', function() {
             'scrollXInner': "150%"
         })
     })
-</script>
+
+
+    </script>
 
 {% endblock %}
-
