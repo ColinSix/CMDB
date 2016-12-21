@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #encoding:utf8
 #
-import sys
+import sys,platform,os
 from methods import DB
 from config import db_config, table_thead
+from werkzeug import secure_filename
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -42,6 +43,40 @@ class UserAuth:
         else:
             print "用户名不存在."
             return 3
+
+
+class GetFile:
+
+    def __init__(self,file=None):
+        self.excelf = file
+
+    def savefile(self):
+        os_type = platform.system()
+        if os_type == "Windows":
+            updir = os.getcwd() + "\\upload_file\\"
+        elif os_type == "Linux":
+            updir = os.getcwd() + "/upload_file/"
+        else:
+            print "不适用此系统."
+            return False
+
+        if (os.path.exists(updir)) == False:
+            os.makedirs(updir)
+        self.excelf.save(updir + secure_filename(self.excelf.filename))
+        
+    def filepath(self):
+        os_type = platform.system()
+        if os_type == "Windows":
+            updir = os.getcwd() + "\\upload_file\\" + secure_filename(self.excelf.filename)
+            return updir
+        elif os_type == "Linux":
+            updir = os.getcwd() + "/upload_file/" + secure_filename(self.excelf.filename)
+            return updir
+        else:
+            print "不适用此系统."
+            return False 
+
+
 
 
 if __name__ == "__main__":
