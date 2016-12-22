@@ -34,13 +34,14 @@ class DataImport:
         # 循环数据表的keys,添加值格式化的临时容器中
         for key in table_thead[self.table]:
             tmp_sqlval.append(key)
-
+        #print exc_data
         for data in exc_data:       # 循环excel的值
+            #print data
             sqlval = copy.deepcopy(tmp_sqlval)      # 定义真正的格式化sql所需要的值(目前已经有了表名/表keys,每循环一次都会重置一次)
             for key in table_thead[self.table]:     # 循环表的key
                 sqlval.append(data[key])            # 将表的key所对应的value添加至sqlval容器中(此时需要的值已经全了)
             sql = tmp_sql % tuple(sqlval)           # 完成可用的sql
-            # print sql
+            #print sql
             try:
                 self.db.execute(sql)                    # 执行数据插入的sql
             except Exception as error:
@@ -48,8 +49,7 @@ class DataImport:
                 print "数据导入失败"
                 print sql
                 return False
-            else:
-                return True
+        return True
 
 # 提供数据导出
 class DataExport:
