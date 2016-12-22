@@ -13,24 +13,26 @@ CREATE TABLE user (
 
 CREATE TABLE vmassets (
   id int(11) NOT NULL AUTO_INCREMENT,
-  ip_addr varchar(25) NOT NULL,
-  app_name varchar(25) DEFAULT NULL,
-  hostname varchar(25) DEFAULT NULL,
-  vc_name varchar(25) DEFAULT NULL,
+  room varchar(25) DEFAULT NULL,
+  pool varchar(255) DEFAULT NULL,
+  project varchar(255) DEFAULT NULL,
+  vmname varchar(255) DEFAULT NULL,
+  ip varchar(25) NOT NULL,
   cpu varchar(25) DEFAULT NULL,
   memory varchar(25) DEFAULT NULL,
   disk varchar(25) DEFAULT NULL,
-  os varchar(255) DEFAULT NULL,
-  status varchar(25) DEFAULT NULL,
-  office_name varchar(255) DEFAULT NULL,
-  office_contact varchar(255) DEFAULT NULL,
-  office_phone varchar(255) DEFAULT NULL,
-  object_contact varchar(255) DEFAULT NULL,
-  object_phone varchar(255) DEFAULT NULL,
-  create_date varchar(30) DEFAULT NULL,
-  end_date varchar(30) DEFAULT NULL,
-  notes varchar(255) DEFAULT NULL,
-  PRIMARY KEY (id,ip_addr));
+  system varchar(255) DEFAULT NULL,
+  hostname varchar(255) DEFAULT NULL,
+  user varchar(255) DEFAULT NULL,
+  password varchar(255) DEFAULT NULL,
+  contact varchar(255) DEFAULT NULL,
+  cphone varchar(255) DEFAULT NULL,
+  bank varchar(255) DEFAULT NULL,
+  bphone varchar(255) DEFAULT NULL,
+  startdate varchar(255) DEFAULT NULL,
+  enddate varchar(255) DEFAULT NULL,
+  note varchar(255) DEFAULT NULL,
+  PRIMARY KEY (id,ip));
 
 insert into user (username, password, role, email) values ("John", "123456", "admin", "123@cdb.com");
 insert into user (username, password, role, email) values ("Aaron", "123456", "admin", "123@cdb.com");

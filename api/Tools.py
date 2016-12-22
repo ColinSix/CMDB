@@ -44,12 +44,13 @@ class UserAuth:
             print "用户名不存在."
             return 3
 
-
+# 用于保存上传的文件
 class GetFile:
 
     def __init__(self,file=None):
         self.excelf = file
 
+    # 保存上传文件
     def savefile(self):
         os_type = platform.system()
         if os_type == "Windows":
@@ -64,6 +65,7 @@ class GetFile:
             os.makedirs(updir)
         self.excelf.save(updir + secure_filename(self.excelf.filename))
         
+    # 返回上传文件所保存路径
     def filepath(self):
         os_type = platform.system()
         if os_type == "Windows":

@@ -5,6 +5,7 @@ import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
 from handlers import RequestProcess as RP
 from api import UserAuth, GetFile
+from config import table_thead, excel_thead
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -72,8 +73,12 @@ def user_option(option):
 
 @app.route("/assets/<kind>/<name>", methods=["GET"])
 def assets(kind,name):
-
-    return render_template("/assets/"+kind+"/"+name+".html")
+    res_vmassets = RP(table="vmassets").response(option="select")
+    res_theads = excel_thead["vmassets"]
+    print res_vmassets
+    print "-------------thead"
+    print res_theads
+    return render_template("/assets/"+kind+"/"+name+".html", vmassets=res_vmassets, theads=res_theads)
 
 
 if __name__ == "__main__":
