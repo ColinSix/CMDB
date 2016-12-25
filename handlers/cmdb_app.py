@@ -4,6 +4,7 @@
 import sys, os, json
 from flask import Flask, redirect, render_template, session, url_for, g, request
 from handlers import RequestProcess as RP
+from handlers import ForHtmlVal
 from api import UserAuth, GetFile
 from config import table_thead, excel_thead
 
@@ -39,7 +40,6 @@ def login():
 @app.route("/user", methods=["GET"])
 def user():
     res = RP(table="user").response(option="select")
-    # print res
     return render_template("/user/user.html", users=res)
 
 @app.route("/user/<option>", methods=["GET", "POST"])
@@ -49,19 +49,19 @@ def user_option(option):
                 "update_val":request.form.get("update_val", None),
                 "_id":request.form.get("_id", None)
                }
-
     for key in val_dict.keys():
         if val_dict[key] != None:
             val_dict[key] = json.loads(val_dict[key])
+            
     if option == "export":
-        return RP(table="user").response(option=option)
+        if RP(table="user").response(option=option):
+            return redirect(url_for("download", filename="static/export_file/export_user.xlsx"))
 
     elif option == "import":
         getfile = request.files["upload-excel"]
-        GetFile(file=getfile).savefile()
+        GetFile(file=getfile,use="upload").savefile()
         excelf = GetFile(file=getfile).filepath()
-        print "调试,打印路径"
-        print excelf
+
         RP(table="user").response(option=option,excel=excelf)
         return redirect(url_for("user"))
 
@@ -70,15 +70,14 @@ def user_option(option):
     else:
         return "error"
 
+@app.route("/<filename>")
+def download(filename):
+    return None
 
 @app.route("/assets/<kind>/<name>", methods=["GET"])
 def assets(kind,name):
-    res_vmassets = RP(table="vmassets").response(option="select")
-    res_theads = excel_thead["vmassets"]
-    print res_vmassets
-    print "-------------thead"
-    print res_theads
-    return render_template("/assets/"+kind+"/"+name+".html", vmassets=res_vmassets, theads=res_theads)
+    res = ForHtmlVal(table=name).res_val()
+    return render_template("/assets/"+kind+"/"+name+".html", assetdata=res["assetdata"], theads=res["theads"], modalval=res["modalval"])
 
 
 if __name__ == "__main__":

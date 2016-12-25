@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #encoding:utf8
 #
-import sys
+import sys, copy
 from api import DBOPERAT
 from methods.data import DataImport, DataExport
+from config import excel_thead, table_thead
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -44,7 +45,8 @@ class RequestProcess:
                     return False
 
             elif option == "export":
-                return DataExport(table=self.table).data_export()
+                if DataExport(table=self.table).data_export():
+                    return True
 
         except Exception as error:
             print "执行%s操作失败。" % (option)
@@ -52,3 +54,21 @@ class RequestProcess:
             return False
         return True
 
+class ForHtmlVal:
+
+    def __init__(self, table):
+        self.table = table
+
+    def res_val(self):
+        res = {}
+        res["assetdata"] = DBOPERAT(table=self.table).select()
+        res["theads"] = excel_thead[self.table]
+        tmp = []
+        excel_keys = copy.deepcopy(excel_thead[self.table]) 
+        excel_keys.pop(0)
+
+        for i in range(len(excel_keys)):
+            tmp.append((table_thead[self.table][i], excel_keys[i]))
+
+        res["modalval"] = tmp  
+        return res

@@ -2,9 +2,11 @@
 #encoding:utf8
 #
 import sys,platform,os
+# from api import DBOPERAT
 from methods import DB
-from config import db_config, table_thead
+from config import db_config, table_thead, excel_thead
 from werkzeug import secure_filename
+# from handlers import RequestProcess as RP
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -44,39 +46,35 @@ class UserAuth:
             print "用户名不存在."
             return 3
 
-# 用于保存上传的文件
+#
 class GetFile:
 
-    def __init__(self,file=None):
+    def __init__(self,file=None,use="upload"):
         self.excelf = file
+        self.os_type = platform.system()
+        if self.os_type == "Windows":
+            self.usedir = os.getcwd() + "\\handlers\\static\\" + use + "_file\\"
+        elif self.os_type == "Linux":
+            self.usedir = os.getcwd() + "/handlers/static/" + use + "_file/"
+        else:
+            print "本程序不适用此系统.支持Windows和Redhat"
+            return False
+        if (os.path.exists(self.usedir)) == False:
+            os.makedirs(self.usedir)
 
     # 保存上传文件
     def savefile(self):
-        os_type = platform.system()
-        if os_type == "Windows":
-            updir = os.getcwd() + "\\upload_file\\"
-        elif os_type == "Linux":
-            updir = os.getcwd() + "/upload_file/"
-        else:
-            print "不适用此系统."
-            return False
+        self.excelf.save(self.usedir + secure_filename(self.excelf.filename))
 
-        if (os.path.exists(updir)) == False:
-            os.makedirs(updir)
-        self.excelf.save(updir + secure_filename(self.excelf.filename))
-        
     # 返回上传文件所保存路径
     def filepath(self):
         os_type = platform.system()
-        if os_type == "Windows":
-            updir = os.getcwd() + "\\upload_file\\" + secure_filename(self.excelf.filename)
-            return updir
-        elif os_type == "Linux":
-            updir = os.getcwd() + "/upload_file/" + secure_filename(self.excelf.filename)
-            return updir
-        else:
-            print "不适用此系统."
-            return False 
+        return self.usedir + secure_filename(self.excelf.filename)
+
+    # 返回导出文件所保存路径
+    def exportpath(self):
+        return self.usedir
+
 
 
 if __name__ == "__main__":

@@ -225,3 +225,7 @@ ul.alert-dropdown {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+.add_res_form_wid {
+  width: 70px;
+}

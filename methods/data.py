@@ -5,9 +5,10 @@
 # 
 from config import table_thead, excel_thead, db_config
 from methods import DB
-from api import ExcAnaly, ExcJoint
-from flask.ext import excel
-import copy
+from api import ExcAnaly, ExcJoint, GetFile
+# from flask.ext import excel
+
+import copy, xlsxwriter, os
 
 # 提供excel数据导入
 class DataImport:
@@ -52,6 +53,7 @@ class DataImport:
         return True
 
 # 提供数据导出
+ 
 class DataExport:
 
     def __init__(self,table):
@@ -64,6 +66,31 @@ class DataExport:
 
     # 数据导出action需要和flask.ext.excel结合使用
     def data_export(self):
-        data = self.get_data()
-        return excel.make_response_from_array(data, "xlsx", file_name="export_" + self.table)
+        data = self.get_data()          # 获取的数据
+        workbook = xlsxwriter.Workbook(GetFile(use="export").exportpath()+"export_"+self.table+".xlsx")     # 打开一个excel工作站
+        worksheet = workbook.add_worksheet()   # 创建第一个工作sheet
+        y = 0           # 纵坐标序号
+        for row in data:    # 循环每一行的数据
+            x = 0           # 横坐标序号
+            for val in row:     # 循环当前行所有的值插入到excel中
+                worksheet.write(y, x, val)
+                x += 1
+            y += 1
+        workbook.close()
+# 
+# 
+# class DataExport:
+
+#     def __init__(self,table):
+#         self.table = table
+
+#     # 获取要导出的数据
+#     def get_data(self):
+#         res = ExcJoint(table=self.table).data_tailor()
+#         return res
+
+#     # 数据导出action需要和flask.ext.excel结合使用
+#     def data_export(self):
+#         data = self.get_data()
+#         return excel.make_response_from_array(data, "xlsx", file_name="export_" + self.table)
 

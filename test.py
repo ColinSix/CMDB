@@ -64,6 +64,12 @@ def importdata():
     inst.data_import()
 # importdata()
 
+def exportdata():
+    from methods.data import DataExport
+    inst = DataExport(table="user")
+    # return inst.get_data()
+    inst.data_export()
+# print exportdata()
 
 
 def bootapp_test():
@@ -73,4 +79,10 @@ def bootapp_test():
     webrun.run(host=app_config['host'], port=app_config['port'], debug=app_config['debug'])
 
 bootapp_test()
+# 
+# 
+
+
+
+# test_excel()
 

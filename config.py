@@ -2,8 +2,8 @@
 #
 
 db_config = {
-    "host":"localhost",
-    "user":"root",
+    "host":"server01",
+    "user":"mingguangzhen",
     "passwd":"123456",
     "db":"cmdb"
             }
@@ -51,7 +51,7 @@ excel_thead = {"user":["USE",
                       "邮箱"],
 
               "vmassets":["USE",
-                          "机房"
+                          "机房",
                           "资源池",
                           "项目组",
                           "虚机名称",
