@@ -77,20 +77,5 @@ class DataExport:
                 x += 1
             y += 1
         workbook.close()
-# 
-# 
-# class DataExport:
 
-#     def __init__(self,table):
-#         self.table = table
-
-#     # 获取要导出的数据
-#     def get_data(self):
-#         res = ExcJoint(table=self.table).data_tailor()
-#         return res
-
-#     # 数据导出action需要和flask.ext.excel结合使用
-#     def data_export(self):
-#         data = self.get_data()
-#         return excel.make_response_from_array(data, "xlsx", file_name="export_" + self.table)
 

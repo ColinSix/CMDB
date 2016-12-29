@@ -6,8 +6,8 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <form action="/assets/virtual/import" role="form" method="POST" enctype=multipart/form-data>
-                        <div class="form-group" >
+                    <form action="/assets/virtual/vmassets/import" role="form" method="POST" enctype=multipart/form-data>
+                        <div class="form-group">
                             <input type="file" name="upload-excel">
                         </div>
                         <button type="submit" class="btn btn-primary btn-xs" value="upload">上传</button>
@@ -20,7 +20,7 @@
     </div>
 
 
-    <div id="add-assets-Modal" class="modal fade">
+    <div id="add-vmassets-Modal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -28,7 +28,7 @@
                     <h4 class="modal-title">新增资源</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline animated bounceInLeft" id="assets-form" action="/assets/virtual/insert" method="POST">
+                    <form class="form-inline animated bounceInLeft" id="vmassets-form" action="/assets/virtual/insert" method="POST">
                         {% for x,y in modalval %}
                         <div class="form-group" style="margin-top:5px">
                             <label for="{{x}}" class="add_res_form_wid">{{y}}</label>
@@ -46,7 +46,7 @@
     </div>
 
 
-    <div id="update-assets-Modal" class="modal fade">
+    <div id="update-vmassets-Modal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -54,11 +54,11 @@
                     <h4 class="modal-title">请填写资源规格参数</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline animated bounceInLeft" id="update-assets-form" action="/assets/virtual/update" method="POST">
+                    <form class="form-inline animated bounceInLeft" id="update-vmassets-form" action="/assets/virtual/update" method="POST">
                         {% for x,y in modalval %}
                         <div class="form-group" style="margin-top:5px">
-                            <label for="{{'update' + x}}" class="add_res_form_wid">{{y}}</label>
-                            <input type="text" name="{{'update' + x}}" class="form-control" id="{{'update' + x}}" placeholder="{{x}}">
+                            <label for="{{'update_' + x}}" class="add_res_form_wid">{{y}}</label>
+                            <input type="text" name="{{'update_' + x}}" class="form-control" id="{{'update_' + x}}" placeholder="{{x}}">
                         </div>
                         {% endfor %}
                     </form>
@@ -79,14 +79,14 @@
                     <div class="panel text-left">
                         <div class="panel-body">
                             <button type="button" class="btn btn-xs btn-danger text-left lotdel-btn" onClick="">批量删除</button>
-                            <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-assets-Modal">新增资源</button>
+                            <button type="button" class="btn btn-xs btn-primary text-left" data-toggle="modal" data-target="#add-vmassets-Modal">新增资源</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="pane text-right">
                         <div class="panel-body">
-                            <button type="button" class="btn btn-xs btn-primary text-right" id="export-user-btn">导出</button>
+                            <button type="button" class="btn btn-xs btn-primary text-right" id="export-vmassets-btn">导出</button>
                             <button type="button" class="btn btn-xs btn-primary text-right" data-toggle="modal" data-target="#upload-file-Modal">导入</button>
                         </div>
                     </div>
@@ -103,6 +103,7 @@
                             {% for thead in theads %}
                             <th>{{thead}}</th>
                             {% endfor %}
+                            <th>操作</th>
                         </tr>
                         
                     </thead>
@@ -131,7 +132,7 @@
                             <td>{{data["enddate"]}}</td>
                             <td>{{data["note"]}}</td>
 
-                            <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-asset-btn">删除</button><button type="submit" data-id="{{data['id']}}" data-room="{{data['room']}}" data-pool="{{data['pool']}}" data-project="{{data['project']}}" data-vmname="{{data['vmname']}}" data-ip="{{data['ip']}}" data-cpu="{{data['cpu']}}" data-memory="{{data['memory']}}" data-disk="{{data['disk']}}" data-system="{{data['system']}}" data-hostname="{{data['hostname']}}" data-user="{{data['user']}}" data-password="{{data['password']}}" data-contact="{{data['contact']}}" data-cphone="{{data['cphone']}}" data-bank="{{data['bank']}}" data-bphone="{{data['bphone']}}" data-startdate="{{data['startdate']}}" data-enddate="{{data['enddate']}}" data-note="{{data['note']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-asset-btn" data-toggle="modal" data-target="#update-assets-Modal">更新</button></td>
+                            <td><button data-id="{{data['id']}}" class="btn btn-danger btn-xs delete-vmassets-btn">删除</button><button type="submit" data-id="{{data['id']}}" data-room="{{data['room']}}" data-pool="{{data['pool']}}" data-project="{{data['project']}}" data-vmname="{{data['vmname']}}" data-ip="{{data['ip']}}" data-cpu="{{data['cpu']}}" data-memory="{{data['memory']}}" data-disk="{{data['disk']}}" data-system="{{data['system']}}" data-hostname="{{data['hostname']}}" data-user="{{data['user']}}" data-password="{{data['password']}}" data-contact="{{data['contact']}}" data-cphone="{{data['cphone']}}" data-bank="{{data['bank']}}" data-bphone="{{data['bphone']}}" data-startdate="{{data['startdate']}}" data-enddate="{{data['enddate']}}" data-note="{{data['note']}}" style="margin-left:10px;" class="btn btn-warning btn-xs update-vmassets-btn" data-toggle="modal" data-target="#update-vmassets-Modal">更新</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -173,7 +174,7 @@
         for(var i=1;i<=item_num;i++){
             item = ".item"+i
             if($(item)[0].checked==true){
-                arr_id.push($(item).attr("data-userid"))
+                arr_id.push($(item).attr("data-id"))
             }
         }
         console.log(arr_id)
@@ -189,11 +190,11 @@
             },
             function() {
                 // $.get('/del_res?id=' + id, function(res) {   
-                $.post("/user/delete", {arr_id: JSON.stringify(arr_id)}, function(res) {
+                $.post("/assets/virtual/vmassets/delete", {arr_id: JSON.stringify(arr_id)}, function(res) {
                     if (res == 'ok') {
                         swal('删除成功')
                         // 实现页面自动跳转
-                        location.href = "/user"
+                        location.href = "/assets/virtual/vmassets"
                     } else if (res == 'error') {
                         swal('删除失败')
                     }
@@ -202,26 +203,41 @@
         return false
         })
 
-    // 添加用户js
-    $('#add-user-Modal').find('.add-user-btn').on('click', function() {
-        var user_info_post = [
-            $('#username').val(),
+    // 添加资产js
+    $('#add-vmassets-Modal').find('.add-vmassets-btn').on('click', function() {
+        var vmassets_info_post = [
+            $('#room').val(),
+            $('#pool').val(),
+            $('#project').val(),
+            $('#vmname').val(),
+            $('#ip').val(),
+            $('#cpu').val(),
+            $('#memory').val(),
+            $('#disk').val(),
+            $('#system').val(),
+            $('#hostname').val(),
+            $('#user').val(),
             $('#password').val(),
-            $('#role').val(),
-            $('#email').val()
+            $('#contact').val(),
+            $('#cphone').val(),
+            $('#bank').val(),
+            $('#bphone').val(),
+            $('#startdate').val(),
+            $('#enddate').val(),
+            $('#note').val()
         ]
-        console.log(user_info_post)
-        $.post("/user/insert", {insert_val: JSON.stringify(user_info_post)}, function(res) {
+        console.log(vmassets_info_post)
+        $.post("/assets/virtual/vmassets/insert", {insert_val: JSON.stringify(vmassets_info_post)}, function(res) {
             if (res == 'ok') {
-                $('#user-form')[0].reset()
-                $('#add-user-Modal').modal('hide')
+                $('#vmassets-form')[0].reset()
+                $('#add-vmassets-Modal').modal('hide')
                 swal({
                     title: "666",
                     text: "恭喜恭喜，添加用户成功",
                     imageUrl: "/static/sweetalert/example/images/thumbs-up.jpg"
                 })
                 // 实现页面自动跳转
-                location.href = "/user"
+                location.href = "/assets/virtual/vmassets"
             } else {
                 swal("用户添加失败", "用户名不能为空哦~", "error")
             }
@@ -230,8 +246,8 @@
     })
 
     // 按钮删除用户
-    $(document).on('click', '.delete-user-btn', function() {
-        var arr_id = [$(this).attr('data-userid')]
+    $(document).on('click', '.delete-vmassets-btn', function() {
+        var arr_id = [$(this).attr('data-id')]
         console.log(arr_id)
         swal({
                 title: "确定删除吗？",
@@ -244,11 +260,11 @@
             },
             function() {
                 // $.get('/del_res?id=' + id, function(res) {
-                $.post('/user/delete', {arr_id: JSON.stringify(arr_id)}, function(res) {
+                $.post('/assets/virtual/vmassets/delete', {arr_id: JSON.stringify(arr_id)}, function(res) {
                     if (res == 'ok') {
                         swal('删除成功')
                         // 实现页面自动跳转
-                        location.href = "/user"
+                        location.href = "/assets/virtual/vmassets"
                     } else if (res == 'error') {
                         swal('删除失败')
                     }
@@ -258,44 +274,76 @@
     })
 
     // 更新用户
-    $(document).on('click', '.update-user-btn', function() {
-        $('#update_password').val($(this).attr('data-password'))
-        $('#update_role').val($(this).attr('data-role'))
-        $('#update_email').val($(this).attr('data-email'))
-        $('#update-user-Modal').attr('data-userid', $(this).attr('data-userid')).modal('show')
+    $(document).on('click', '.update-vmassets-btn', function() {
+        $('#update_room').val($(this).attr('data-room'))
+        $('#update_pool').val($(this).attr('data-pool'))
+        $('#update_project').val($(this).attr('data-project'))
+        $('#update_vmname').val($(this).attr('data-vmname')),
+        $('#update_ip').val($(this).attr('data-ip')),
+        $('#update_cpu').val($(this).attr('data-cpu')),
+        $('#update_memory').val($(this).attr('data-memory')),
+        $('#update_disk').val($(this).attr('data-disk')),
+        $('#update_system').val($(this).attr('data-system')),
+        $('#update_hostname').val($(this).attr('data-hostname')),
+        $('#update_user').val($(this).attr('data-user')),
+        $('#update_password').val($(this).attr('data-password')),
+        $('#update_contact').val($(this).attr('data-contact')),
+        $('#update_cphone').val($(this).attr('data-cphone')),
+        $('#update_bank').val($(this).attr('data-bank')),
+        $('#update_bphone').val($(this).attr('data-bphone')),
+        $('#update_startdate').val($(this).attr('data-startdate')),
+        $('#update_enddate').val($(this).attr('data-enddate')),
+        $('#update_note').val($(this).attr('data-note'))
+        $('#update-vmassets-Modal').attr('data-id', $(this).attr('data-id')).modal('show')
     })
 
-    $('#update-user-Modal').find('.update-btn').on('click', function() {
+    $('#update-vmassets-Modal').find('.update-btn').on('click', function() {
         // var id = $('#update-user-Modal').attr('data-userid')
-        var user_info_post = {
+        var vmassets_info_post = {
             update_val:JSON.stringify([
+                $('#update_room').val(),
+                $('#update_pool').val(),
+                $('#update_project').val(),
+                $('#update_vmname').val(),
+                $('#update_ip').val(),
+                $('#update_cpu').val(),
+                $('#update_memory').val(),
+                $('#update_disk').val(),
+                $('#update_system').val(),
+                $('#update_hostname').val(),
+                $('#update_user').val(),
                 $('#update_password').val(),
-                $('#update_role').val(),
-                $('#update_email').val()
+                $('#update_contact').val(),
+                $('#update_cphone').val(),
+                $('#update_bank').val(),
+                $('#update_bphone').val(),
+                $('#update_startdate').val(),
+                $('#update_enddate').val(),
+                $('#update_note').val()
             ]),
-            _id: $('#update-user-Modal').attr('data-userid')
+            _id: $('#update-vmassets-Modal').attr('data-id')
         }
 
-        console.log(user_info_post)
-        $.post('/user/update', user_info_post, function(res) {
+        console.log(vmassets_info_post)
+        $.post('/assets/virtual/vmassets/update', vmassets_info_post, function(res) {
             if (res == 'ok') {
                 swal('用户信息修改成功')
-                $('#update-user-form')[0].reset()
-                $('#update-user-Modal').modal('hide')
+                $('#update-vmassets-form')[0].reset()
+                $('#update-vmassets-Modal').modal('hide')
                 // 实现页面自动跳转
-                location.href = "/user"
+                location.href = "/assets/virtual/vmassets"
             } else if (res == 'error') {
                 swal('信息修改失败')
-                $('#update-user-form')[0].reset()
-                $('#update-user-Modal').modal('hide')
+                $('#update-vmassets-form')[0].reset()
+                $('#update-vmassets-Modal').modal('hide')
             }
         })
         return false
     })
 
     // 实现页面自动转跳至导出excel路由
-    $('#export-user-btn').on('click',function(){
-        location.href = "/user/export"
+    $('#export-vmassets-btn').on('click',function(){
+        location.href = "/assets/virtual/vmassets/export"
     })
 
     // dataTables分页
