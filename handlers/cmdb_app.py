@@ -92,7 +92,7 @@ def vmassets_option(kind,name,option):
             val_dict[key] = json.loads(val_dict[key])
             
     if option == "export":
-        if RP(table="vmassets").response(option=option):
+        if RP(table=name).response(option=option):
             return redirect(url_for("download", filename="static/export_file/export_"+name+".xlsx"))
 
     elif option == "import":
@@ -100,10 +100,10 @@ def vmassets_option(kind,name,option):
         GetFile(file=getfile,use="upload").savefile()
         excelf = GetFile(file=getfile).filepath()
 
-        RP(table="vmassets").response(option=option,excel=excelf)
+        RP(table=name).response(option=option,excel=excelf)
         return redirect(url_for("assets",kind=kind,name=name))
 
-    elif RP(table="vmassets").response(option=option, insert_val=val_dict["insert_val"], arr_id=val_dict["arr_id"], update_val=val_dict["update_val"], _id=val_dict["_id"]):
+    elif RP(table=name).response(option=option, insert_val=val_dict["insert_val"], arr_id=val_dict["arr_id"], update_val=val_dict["update_val"], _id=val_dict["_id"]):
         return "ok"
     else:
         return "error"
